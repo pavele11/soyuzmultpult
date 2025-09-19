@@ -1,46 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Союзмультфильм AR</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Фоновое изображение -->
+    <div class="background-image"></div>
 
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-    <script src="marker-tracker.js"></script>
-    
-  </head>
-  <body>
-    <a-scene mindar-image="imageTargetSrc:sm_3x.mind;  maxTrack: 3" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <!-- Ассеты -->
-      <a-assets>
-        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
-        <a-asset-item id="1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
-        <a-asset-item id="2" src="cube.glb"></a-asset-item>
-      </a-assets>
+    <!-- Логотип -->
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Soyuzmultfilm_logo.svg/200px-Soyuzmultfilm_logo.svg.png" alt="Союзмультфильм" />
+    </div>
 
-      <!-- Камера -->
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      
-      <!-- Шапокляк -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#2" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-      </a-entity>
-      
-      <!-- Чебурашка -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <!-- Видео -->
-        <a-entity id="gif-element" geometry="primitive: plane; height: 1; width: 2" material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
-        <!-- Контент -->
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#1" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-      </a-entity>
+    <!-- Текст -->
+    <div class="text">
+        На следующем этапе согласитесь с доступом к камере и гироскопу телефона
+    </div>
 
-      <!-- Гена -->
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#2" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-      </a-entity>
-      
-    </a-scene>
-  </body>
+    <!-- Кнопка -->
+    <div class="button-container">
+        <div class="button-background" onclick="startAR()">
+            <div class="button-text">Поехали!</div>
+        </div>
+    </div>
+
+    <script>
+        function startAR() {
+            window.location.href = 'smp.html';
+        }
+    </script>
+</body>
 </html>
