@@ -2,6 +2,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="spinner.css">
+    <link rel="stylesheet" href="scanning.css">
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
@@ -9,12 +10,18 @@
     
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc:sm_3x.mind;  maxTrack: 3; uiLoading:#loading-overlay; uiError:no;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      
-      <div id="loading-overlay">
-        <div class="spinner"></div>
+    <!-- Анимация сканирования -->
+    <div id="scanning-overlay" class="hidden">
+      <div class="scanning-content">
+        <div class="scanning-spinner"></div>
+        <div class="scanning-text">Сканирование...</div>
       </div>
-      
+    </div>
+    <!-- Анимация загрузки -->
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+    <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack: 3; uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <!-- Ассеты -->
       <a-assets>
         <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
