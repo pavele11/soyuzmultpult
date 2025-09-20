@@ -66,33 +66,31 @@
            renderer="colorManagement: true, physicallyCorrectLights"
            vr-mode-ui="enabled: false"
            device-orientation-permission-ui="enabled: false">
-
+    <!-- Ассеты -->
     <a-assets>
       <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"/>
       <a-asset-item id="1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
       <a-asset-item id="2" src="cube.glb"></a-asset-item>
+      <img id="Oranges" src="Images/Oranges.png"/>
+      <img id="Table" src="Images/Table.png"/>
+      <img id="Lariska" src="Images/Lariska.png"/>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0">
-      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
-                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+      <a-plane material="shader:flat;" src="#Lariska" position="0.4 -0.5 0" height="1" width="1" rotation="0 0 0"></a-plane>
     </a-entity>
 
+    <!-- Чебурашка -->
     <a-entity mindar-image-target="targetIndex: 1">
       <a-entity id="gif-element" geometry="primitive: plane; height:1; width:2"
                 material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
-      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#1"
-                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+      <a-plane material="shader:flat;" src="#Oranges" position="0 -0.25 0" height="1" width="1" rotation="0 0 0"></a-plane>
     </a-entity>
 
     <a-entity mindar-image-target="targetIndex: 2">
-      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
-                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+      <a-plane material="shader:flat;" src="#Table" position="-0.3 -0.35 0" height="2" width="2" rotation="0 0 0"></a-plane>
     </a-entity>
   </a-scene>
 
