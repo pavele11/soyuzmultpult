@@ -1,0 +1,61 @@
+/* кнопка «Сделать фото» */
+#photoBtn{
+    position:fixed; bottom:20px; right:20px; z-index:9999;
+    padding:12px 24px; background:#fff; border:none; border-radius:8px;
+    font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.25);
+  }
+  
+  /* затемнение под поп-апы */
+  #previewOverlay,
+  #afterOverlay{
+    position:fixed; inset:0; z-index:10000;
+    background:rgba(0,0,0,.75);
+    display:flex; align-items:center; justify-content:center;
+  }
+  
+  /* белые карточки */
+  #previewBox,
+  #afterBox{
+    background:#fff; border-radius:12px;
+    padding:20px; max-width:90vw; max-height:90vh;
+    text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.3);
+  }
+  
+  #previewBox img,
+  #afterBox img{
+    max-width:100%; max-height:50vh; display:block; margin:0 auto 15px;
+  }
+  
+  #afterBox p{
+    margin:0 0 20px; font-size:18px;
+  }
+  
+  #previewBox button,
+  #afterBox button,
+  #afterBox a button{
+    margin:6px; padding:10px 20px; font-size:16px; border:none;
+    border-radius:6px; cursor:pointer;
+  }
+  
+  #downloadBtn,
+  #goParkBtn{ background:#007aff; color:#fff; }
+  #closeBtn,
+  #laterBtn { background:#ccc; }
+
+  /* одинаковая ширина/высота для обоих поп-апов */
+#previewBox,
+#afterBox {
+  width: 90vw;          /* максимум экрана */
+  max-width: 420px;     /* фикс-ширина как у первого */
+  min-height: 340px;    /* чтобы не сжимался */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#afterBox img {
+    width: 100%;          /* ширина блока */
+    max-height: 200px;    /* фикс-высота, как у обычного баннера */
+    object-fit: cover;    /* красиво обрежет лишнее, сохранив пропорции */
+    margin: 0 auto 15px;  /* отступ снизу */
+  }
+  .hidden{ display:none !important; }

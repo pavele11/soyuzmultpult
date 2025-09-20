@@ -1,237 +1,102 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MindAR – Photo</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AR-скриншот</title>
 
-    <!-- ваши стили -->
-    <link rel="stylesheet" href="spinner.css">
-    <link rel="stylesheet" href="scanning.css">
+  <!-- ваши старые стили -->
+  <link rel="stylesheet" href="spinner.css">
+  <link rel="stylesheet" href="scanning.css">
 
-    <!-- библиотеки -->
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-    <script src="marker-tracker.js"></script>
+  <!-- новые стили поп-апов -->
+  <link rel="stylesheet" href="capture.css">
 
-    <style>
-      #photoBtn{
-        position:fixed; bottom:20px; right:20px; z-index:9999;
-        padding:12px 24px; background:#fff; border:none; border-radius:8px;
-        font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.25);
-      }
-       /* затемнение под поп-ап */
-  #previewOverlay{
-    position:fixed; inset:0; z-index:10000;
-    background:rgba(0,0,0,.75);
-    display:flex; align-items:center; justify-content:center;
-  }
-  /* белая карточка */
-  #previewBox{
-    background:#fff; border-radius:12px;
-    padding:20px; max-width:90vw; max-height:90vh;
-    text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.3);
-  }
-  #previewImg{
-    max-width:100%; max-height:70vh; display:block; margin:0 auto 15px;
-  }
-  #previewBox button{
-    margin:6px; padding:10px 20px; font-size:16px; border:none;
-    border-radius:6px; cursor:pointer;
-  }
-  #downloadBtn{ background:#007aff; color:#fff; }
-  #closeBtn   { background:#ccc; }
+  <!-- библиотеки MindAR + A-Frame -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script src="marker-tracker.js"></script>
+</head>
 
-  /* второе окно – такие же размеры и стиль, как превью */
-  #afterOverlay{
-    position:fixed; inset:0; z-index:10001;
-    background:rgba(0,0,0,.75);
-    display:flex; align-items:center; justify-content:center;
-  }
-  #afterBox{
-    background:#fff; border-radius:12px;
-    padding:20px; max-width:90vw; max-height:90vh;
-    text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.3);
-  }
-  #afterBox img{
-    max-width:100%; max-height:50vh; display:block; margin:0 auto 15px;
-  }
-  #afterBox p{
-    margin:0 0 20px; font-size:18px;
-  }
-  #afterBox a button,
-  #afterBox button{
-    margin:6px; padding:10px 20px; font-size:16px; border:none;
-    border-radius:6px; cursor:pointer;
-  }
-  #goParkBtn{ background:#007aff; color:#fff; }
-  #laterBtn { background:#ccc; }
+<body>
+  <!-- оверлей сканирования -->
+  <div id="scanning-overlay" class="hidden">
+    <div class="scanning-content">
+      <div class="scanning-spinner"></div>
+      <div class="scanning-text">Сканирование...</div>
+    </div>
+  </div>
 
-  .hidden{ display:none !important; }
-    </style>
+  <!-- оверлей загрузки -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
 
-  </head>
+  <!-- кнопка «Сделать фото» -->
+  <button id="photoBtn" disabled>📸 Сделать фото</button>
 
-
-  <body>
-    <!-- оверлей сканирования -->
-    <div id="scanning-overlay" class="hidden">
-      <div class="scanning-content">
-        <div class="scanning-spinner"></div>
-        <div class="scanning-text">Сканирование...</div>
+  <!-- поп-ап превью -->
+  <div id="previewOverlay" class="hidden">
+    <div id="previewBox">
+      <img id="previewImg" alt="preview">
+      <div>
+        <button id="downloadBtn">Скачать</button>
+        <button id="closeBtn">Закрыть</button>
       </div>
     </div>
+  </div>
 
-    <!-- оверлей загрузки -->
-    <div id="loading-overlay">
-      <div class="spinner"></div>
-    </div>
-
-    <!-- сцена MindAR -->
-    <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack:3;
-                          uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;"
-             color-space="sRGB"
-             renderer="colorManagement: true, physicallyCorrectLights"
-             vr-mode-ui="enabled: false"
-             device-orientation-permission-ui="enabled: false">
-
-      <!-- ассеты -->
-      <a-assets>
-        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"/>
-        <a-asset-item id="1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
-        <a-asset-item id="2" src="cube.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- камера -->
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-      <!-- маркер 0 -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
-                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
-      </a-entity>
-
-      <!-- маркер 1 -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <a-entity id="gif-element" geometry="primitive: plane; height:1; width:2"
-                  material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#1"
-                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
-      </a-entity>
-
-      <!-- маркер 2 -->
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
-                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
-      </a-entity>
-    </a-scene>
-
-    <!-- кнопка -->
-<button id="photoBtn" disabled>📸 Сделать фото</button>
-<!-- поп-ап превью -->
-<div id="previewOverlay" class="hidden">
-  <div id="previewBox">
-    <img id="previewImg" alt="preview">
-    <div>
-      <button id="downloadBtn">Скачать</button>
-      <button id="closeBtn">Закрыть</button>
+  <!-- поп-ап после скачивания -->
+  <div id="afterOverlay" class="hidden">
+    <div id="afterBox">
+      <img id="afterImg" src="https://via.placeholder.com/400x300/007aff/ffffff?text=Супер!" alt="заставка">
+      <p>Круто получилось!<br>А теперь заходите к нам в парк!</p>
+      <a href="https://souzmultpark.ru/" target="_blank">
+        <button id="goParkBtn">Посмотреть сеансы</button>
+      </a>
+      <button id="laterBtn">В другой раз обязательно!</button>
     </div>
   </div>
-</div>
-<!-- второй поп-ап «после скачивания» -->
-<div id="afterOverlay" class="hidden">
-  <div id="afterBox">
-    <!-- та же картинка, что только что скачали -->
-    <img id="afterImg" alt="screenshot">
-    <p>Круто получилось!<br>А теперь заходите к нам в парк!</p>
-    <a href="https://souzmultpark.ru/" target="_blank">
-      <button id="goParkBtn">Посмотреть сеансы</button>
-    </a>
-    <button id="laterBtn">В другой раз обязательно!</button>
-  </div>
-</div>
 
+  <!-- AR-сцена (ваша) -->
+  <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack:3;
+                        uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;"
+           color-space="sRGB"
+           renderer="colorManagement: true, physicallyCorrectLights"
+           vr-mode-ui="enabled: false"
+           device-orientation-permission-ui="enabled: false">
 
-    <!-- скрипт сохранения фото -->
-    <script>
-    /* ждём появления screenshot-компонента (MindAR 1.2.5) */
-const awaitScreenshot = setInterval(() => {
-  const scene = document.querySelector('a-scene');
-  if (scene && scene.components && scene.components.screenshot) {
-    clearInterval(awaitScreenshot);
-    document.getElementById('photoBtn').disabled = false;
-  }
-}, 200);
+    <a-assets>
+      <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"/>
+      <a-asset-item id="1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
+      <a-asset-item id="2" src="cube.glb"></a-asset-item>
+    </a-assets>
 
-/* элементы превью */
-const overlay   = document.getElementById('previewOverlay');
-const preview   = document.getElementById('previewImg');
-const closeBtn  = document.getElementById('closeBtn');
-const downBtn   = document.getElementById('downloadBtn');
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-/* элементы второго поп-апа */
-const afterOverlay = document.getElementById('afterOverlay');
-const afterImg     = document.getElementById('afterImg');
-const laterBtn     = document.getElementById('laterBtn');
+    <a-entity mindar-image-target="targetIndex: 0">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
+                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+    </a-entity>
 
-function hidePreview(){
-  overlay.classList.add('hidden');
-  URL.revokeObjectURL(preview.src);
-}
+    <a-entity mindar-image-target="targetIndex: 1">
+      <a-entity id="gif-element" geometry="primitive: plane; height:1; width:2"
+                material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#1"
+                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+    </a-entity>
 
-closeBtn.addEventListener('click', hidePreview);
-overlay.addEventListener('click', e => { if (e.target === overlay) hidePreview(); });
+    <a-entity mindar-image-target="targetIndex: 2">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
+                    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+    </a-entity>
+  </a-scene>
 
-laterBtn.addEventListener('click', () => {
-  afterOverlay.classList.add('hidden');
-  hidePreview();                 // закрываем и превью тоже
-});
-
-afterOverlay.addEventListener('click', e => {
-  if (e.target === afterOverlay) afterOverlay.classList.add('hidden');
-});
-
-/* основной клик по «Сделать фото» */
-document.getElementById('photoBtn').addEventListener('click', () => {
-  const video   = document.querySelector('video');
-  const sceneEl = document.querySelector('a-scene');
-  if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
-
-  video.pause();
-
-  /* 1. создаём кадр */
-  const canvas = document.createElement('canvas');
-  canvas.width  = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  const ar = sceneEl.components.screenshot.getCanvas('perspective');
-  ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
-
-  /* 2. показываем превью */
-  canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    preview.src = url;
-    overlay.classList.remove('hidden');
-    video.play();
-
-    /* 3. кнопка «Скачать» + второй поп-ап */
-    downBtn.onclick = () => {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'mindar_' + Date.now() + '.png';
-      link.click();
-
-      /* показываем второе окно с той же картинкой */
-      afterImg.src = url;
-      afterOverlay.classList.remove('hidden');
-    };
-  }, 'image/png');
-});
-      </script>
-  </body>
+  <!-- логика скриншотов -->
+  <script src="capture.js"></script>
+</body>
 </html>
