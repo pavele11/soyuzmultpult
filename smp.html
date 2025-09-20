@@ -21,6 +21,29 @@
         padding:12px 24px; background:#fff; border:none; border-radius:8px;
         font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.25);
       }
+       /* затемнение под поп-ап */
+  #previewOverlay{
+    position:fixed; inset:0; z-index:10000;
+    background:rgba(0,0,0,.75);
+    display:flex; align-items:center; justify-content:center;
+  }
+  /* белая карточка */
+  #previewBox{
+    background:#fff; border-radius:12px;
+    padding:20px; max-width:90vw; max-height:90vh;
+    text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.3);
+  }
+  #previewImg{
+    max-width:100%; max-height:70vh; display:block; margin:0 auto 15px;
+  }
+  #previewBox button{
+    margin:6px; padding:10px 20px; font-size:16px; border:none;
+    border-radius:6px; cursor:pointer;
+  }
+  #downloadBtn{ background:#007aff; color:#fff; }
+  #closeBtn   { background:#ccc; }
+
+  .hidden{ display:none !important; }
     </style>
 
   </head>
@@ -82,59 +105,79 @@
       </a-entity>
     </a-scene>
 
-    <!-- скрипт сохранения фото -->
     <!-- кнопка -->
 <button id="photoBtn" disabled>📸 Сделать фото</button>
+<!-- поп-ап превью -->
+<div id="previewOverlay" class="hidden">
+  <div id="previewBox">
+    <img id="previewImg" alt="preview">
+    <div>
+      <button id="downloadBtn">Скачать</button>
+      <button id="closeBtn">Закрыть</button>
+    </div>
+  </div>
+</div>
 
-<script>
-  /* ждём появления screenshot-компонента (MindAR 1.2.5) */
-  const awaitScreenshot = setInterval(() => {
-    const scene = document.querySelector('a-scene');
-    if (scene && scene.components && scene.components.screenshot) {
-      clearInterval(awaitScreenshot);
-      document.getElementById('photoBtn').disabled = false;
-    }
-  }, 200);
-  
-  document.getElementById('photoBtn').addEventListener('click', () => {
-    const video   = document.querySelector('video');
-    const sceneEl = document.querySelector('a-scene');
-    if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
-  
-    video.pause();
-  
-    /* 1. холст в нативных пропорциях */
-    const canvas = document.createElement('canvas');
-    canvas.width  = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-  
-    /* 2. видео + AR */
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const ar = sceneEl.components.screenshot.getCanvas('perspective');
-    ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
-  
-    /* 3. !!! делаем всё СИНХРОННО внутри клика */
-    canvas.toBlob(blob => {
-      /* 3a. имя файла без стороннего сервера */
-      const fileName = 'mindar_' + Date.now() + '.png';
-  
-      /* 3b. старый добрый dataURL – работает везде */
-      const url = canvas.toDataURL('image/png');
-  
-      /* 3c. создаём <a> ПРЯМО СЕЙЧАС и кликаем */
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href     = url;
-      a.download = fileName;   // iOS 13+ уже умеет читать это
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  
-      /* 4. освободить память */
-      video.play();
-    }, 'image/png');
-  });
-  </script>
+
+    <!-- скрипт сохранения фото -->
+    <script>
+      /* ждём screenshot-компонент (MindAR 1.2.5) */
+      const awaitScreenshot = setInterval(() => {
+        const scene = document.querySelector('a-scene');
+        if (scene && scene.components && scene.components.screenshot) {
+          clearInterval(awaitScreenshot);
+          document.getElementById('photoBtn').disabled = false;
+        }
+      }, 200);
+      
+      /* элементы превью */
+      const overlay = document.getElementById('previewOverlay');
+      const preview = document.getElementById('previewImg');
+      const closeBtn= document.getElementById('closeBtn');
+      const downBtn = document.getElementById('downloadBtn');
+      
+      function hidePreview(){
+        overlay.classList.add('hidden');
+        URL.revokeObjectURL(preview.src); // чистим память
+      }
+      
+      closeBtn.addEventListener('click', hidePreview);
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) hidePreview();
+      });
+      
+      /* основной клик по «Сделать фото» */
+      document.getElementById('photoBtn').addEventListener('click', () => {
+        const video   = document.querySelector('video');
+        const sceneEl = document.querySelector('a-scene');
+        if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
+      
+        video.pause();
+      
+        /* 1. создаём кадр */
+        const canvas = document.createElement('canvas');
+        canvas.width  = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const ar = sceneEl.components.screenshot.getCanvas('perspective');
+        ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
+      
+        /* 2. показываем превью */
+        canvas.toBlob(blob => {
+          preview.src = URL.createObjectURL(blob);
+          overlay.classList.remove('hidden');
+          video.play();
+        }, 'image/png');
+      
+        /* 3. кнопка «Скачать» внутри превью */
+        downBtn.onclick = () => {
+          const link = document.createElement('a');
+          link.href = preview.src;
+          link.download = 'mindar_' + Date.now() + '.png';
+          link.click();
+        };
+      });
+      </script>
   </body>
 </html>
