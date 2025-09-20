@@ -43,7 +43,7 @@ const awaitScreenshot = setInterval(() => {
   
     video.pause();
   
-    /* создаём кадр */
+    /* 1. рисуем кадр */
     const canvas = document.createElement('canvas');
     canvas.width  = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -52,21 +52,26 @@ const awaitScreenshot = setInterval(() => {
     const ar = sceneEl.components.screenshot.getCanvas('perspective');
     ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
   
-    /* показываем превью */
-    canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      preview.src = url;
-      overlay.classList.remove('hidden');
-      video.play();
+    /* 2. dataURL – работает в Яндексе */
+    const dataURL = canvas.toDataURL('image/png');
   
-      /* кнопка «Скачать» + второй поп-ап */
-      downBtn.onclick = () => {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'mindar_' + Date.now() + '.png';
-        link.click();
+    /* 3. показываем превью */
+    preview.src = dataURL;
+    overlay.classList.remove('hidden');
+    video.play();
   
-        afterOverlay.classList.remove('hidden');
-      };
-    }, 'image/png');
+    /* 4. кнопка «Скачать» – синхронно */
+    downBtn.onclick = () => {
+      /* 4a. скачивание */
+      const link = document.createElement('a');
+      link.href = dataURL;
+      link.download = 'mindar_' + Date.now() + '.png';
+      document.body.appendChild(link);   // для Яндекса
+      link.click();
+      document.body.removeChild(link);
+  
+      /* 4b. сразу показываем второй поп-ап */
+      afterImg.src = dataURL;   // если хотите без картинки – уберите строку
+      afterOverlay.classList.remove('hidden');
+    };
   });
