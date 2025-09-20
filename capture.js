@@ -71,7 +71,7 @@ const awaitScreenshot = setInterval(() => {
       document.body.removeChild(link);
   
       /* 4b. сразу показываем второй поп-ап */
-      afterImg.src = dataURL;   // если хотите без картинки – уберите строку
+     //afterImg.src = dataURL;   // если хотите без картинки – уберите строку
       afterOverlay.classList.remove('hidden');
     };
   });
