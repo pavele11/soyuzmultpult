@@ -1,58 +1,140 @@
+<!doctype html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MindAR – Photo</title>
+
+    <!-- ваши стили -->
     <link rel="stylesheet" href="spinner.css">
     <link rel="stylesheet" href="scanning.css">
+
+    <!-- библиотеки -->
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="marker-tracker.js"></script>
-    
+
+    <style>
+      #photoBtn{
+        position:fixed; bottom:20px; right:20px; z-index:9999;
+        padding:12px 24px; background:#fff; border:none; border-radius:8px;
+        font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.25);
+      }
+    </style>
+
   </head>
+
+
   <body>
-    <!-- Анимация сканирования -->
+    <!-- оверлей сканирования -->
     <div id="scanning-overlay" class="hidden">
       <div class="scanning-content">
         <div class="scanning-spinner"></div>
         <div class="scanning-text">Сканирование...</div>
       </div>
     </div>
-    <!-- Анимация загрузки -->
+
+    <!-- оверлей загрузки -->
     <div id="loading-overlay">
       <div class="spinner"></div>
     </div>
-    <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack: 3; uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <!-- Ассеты -->
+
+    <!-- сцена MindAR -->
+    <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack:3;
+                          uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;"
+             color-space="sRGB"
+             renderer="colorManagement: true, physicallyCorrectLights"
+             vr-mode-ui="enabled: false"
+             device-orientation-permission-ui="enabled: false">
+
+      <!-- ассеты -->
       <a-assets>
-        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
+        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"/>
         <a-asset-item id="1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
         <a-asset-item id="2" src="cube.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Камера -->
+      <!-- камера -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      
-      <!-- Шапокляк -->
+
+      <!-- маркер 0 -->
       <a-entity mindar-image-target="targetIndex: 0">
         <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#2" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-      </a-entity>
-      
-      <!-- Чебурашка -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <!-- Видео -->
-        <a-entity id="gif-element" geometry="primitive: plane; height: 1; width: 2" material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
-        <!-- Контент -->
-        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#1" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
+                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
       </a-entity>
 
-      <!-- Гена -->
+      <!-- маркер 1 -->
+      <a-entity mindar-image-target="targetIndex: 1">
+        <a-entity id="gif-element" geometry="primitive: plane; height:1; width:2"
+                  material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
+        <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#1"
+                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
+      </a-entity>
+
+      <!-- маркер 2 -->
       <a-entity mindar-image-target="targetIndex: 2">
         <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-        <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#2" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+        <a-gltf-model rotation="0 0 0" position="0 0 0.1" scale="0.005 0.005 0.005" src="#2"
+                      animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"></a-gltf-model>
       </a-entity>
-      
     </a-scene>
+
+    <!-- скрипт сохранения фото -->
+    <!-- кнопка -->
+<button id="photoBtn" disabled>📸 Сделать фото</button>
+
+<script>
+  /* ждём появления screenshot-компонента (MindAR 1.2.5) */
+  const awaitScreenshot = setInterval(() => {
+    const scene = document.querySelector('a-scene');
+    if (scene && scene.components && scene.components.screenshot) {
+      clearInterval(awaitScreenshot);
+      document.getElementById('photoBtn').disabled = false;
+    }
+  }, 200);
+  
+  document.getElementById('photoBtn').addEventListener('click', () => {
+    const video   = document.querySelector('video');
+    const sceneEl = document.querySelector('a-scene');
+    if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
+  
+    video.pause();
+  
+    /* 1. холст в нативных пропорциях */
+    const canvas = document.createElement('canvas');
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+  
+    /* 2. видео + AR */
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const ar = sceneEl.components.screenshot.getCanvas('perspective');
+    ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
+  
+    /* 3. !!! делаем всё СИНХРОННО внутри клика */
+    canvas.toBlob(blob => {
+      /* 3a. имя файла без стороннего сервера */
+      const fileName = 'mindar_' + Date.now() + '.png';
+  
+      /* 3b. старый добрый dataURL – работает везде */
+      const url = canvas.toDataURL('image/png');
+  
+      /* 3c. создаём <a> ПРЯМО СЕЙЧАС и кликаем */
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href     = url;
+      a.download = fileName;   // iOS 13+ уже умеет читать это
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  
+      /* 4. освободить память */
+      video.play();
+    }, 'image/png');
+  });
+  </script>
   </body>
 </html>
