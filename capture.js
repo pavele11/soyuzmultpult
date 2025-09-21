@@ -2,6 +2,10 @@
    AR-скриншот «во весь экран» без искажений
    ========================================================= */
 
+// фоновая картинка
+const bgImg = new Image();
+bgImg.src = 'Images/ui_background.png';
+
 /* ждём появления screenshot-компонента MindAR 1.2.5 */
 const awaitScreenshot = setInterval(() => {
     const scene = document.querySelector('a-scene');
@@ -72,8 +76,22 @@ const awaitScreenshot = setInterval(() => {
     console.groupEnd();
     /* ---------- /ДЕБАГ-ЛОГ ---------- */
   
-    ctx.drawImage(video, 0, 0, vW, vH, dx, dy, dw, dh);
-    ctx.drawImage(arCanvas, 0, 0, window.innerWidth, window.innerHeight);
+  /* ---------- заливаем фоном ---------- */
+  const bgScale = Math.max(
+    window.innerWidth / bgImg.width,
+    window.innerHeight / bgImg.height
+  );
+  const bw = bgImg.width * bgScale;
+  const bh = bgImg.height * bgScale;
+  const bx = (window.innerWidth - bw) / 2;
+  const by = (window.innerHeight - bh) / 2;
+  ctx.drawImage(bgImg, bx, by, bw, bh);
+
+/* ---------- рисуем видео поверх ---------- */
+ctx.drawImage(video, 0, 0, vW, vH, dx, dy, dw, dh);
+
+/* ---------- рисуем AR поверх всего ---------- */
+ctx.drawImage(arCanvas, 0, 0, window.innerWidth, window.innerHeight);
   
     /* ---------- 3. показываем превью ---------- */
     const dataURL = canvas.toDataURL('image/png');
