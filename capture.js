@@ -1,4 +1,8 @@
-/* ждём появления screenshot-компонента (MindAR 1.2.5) */
+/* =========================================================
+   AR-скриншот «во весь экран» без искажений
+   ========================================================= */
+
+/* ждём появления screenshot-компонента MindAR 1.2.5 */
 const awaitScreenshot = setInterval(() => {
     const scene = document.querySelector('a-scene');
     if (scene && scene.components && scene.components.screenshot) {
@@ -7,18 +11,17 @@ const awaitScreenshot = setInterval(() => {
     }
   }, 200);
   
-  /* элементы превью */
+  /* ---------- элементы интерфейса ---------- */
   const overlay   = document.getElementById('previewOverlay');
   const preview   = document.getElementById('previewImg');
   const closeBtn  = document.getElementById('closeBtn');
   const downBtn   = document.getElementById('downloadBtn');
   
-  /* элементы второго поп-апа */
   const afterOverlay = document.getElementById('afterOverlay');
   const afterImg     = document.getElementById('afterImg');
   const laterBtn     = document.getElementById('laterBtn');
   
-  function hidePreview(){
+  function hidePreview() {
     overlay.classList.add('hidden');
     URL.revokeObjectURL(preview.src);
   }
@@ -30,12 +33,11 @@ const awaitScreenshot = setInterval(() => {
     afterOverlay.classList.add('hidden');
     hidePreview();
   });
-  
   afterOverlay.addEventListener('click', e => {
     if (e.target === afterOverlay) afterOverlay.classList.add('hidden');
   });
   
-  /* основной клик по «Сделать фото» */
+  /* ---------- основной клик «Сделать фото» ---------- */
   document.getElementById('photoBtn').addEventListener('click', () => {
     const video   = document.querySelector('video');
     const sceneEl = document.querySelector('a-scene');
@@ -43,35 +45,50 @@ const awaitScreenshot = setInterval(() => {
   
     video.pause();
   
-    /* 1. рисуем кадр */
+    /* ---------- 1. холст = размер экрана ---------- */
     const canvas = document.createElement('canvas');
-    canvas.width  = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width  = window.innerWidth  * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const ar = sceneEl.components.screenshot.getCanvas('perspective');
-    ctx.drawImage(ar, 0, 0, canvas.width, canvas.height);
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   
-    /* 2. dataURL – работает в Яндексе */
+    /* ---------- 2. видео «object-fit:contain» по центру ---------- */
+    const vW = video.videoWidth;
+    const vH = video.videoHeight;
+    const scale = Math.min(window.innerWidth / vW, window.innerHeight / vH);
+    const dw = vW * scale;
+    const dh = vH * scale;
+    const dx = (window.innerWidth  - dw) / 2;
+    const dy = (window.innerHeight - dh) / 2;
+  
+    /* ---------- ДЕБАГ-ЛОГ ---------- */
+    console.group('📸 DEBUG screenshot');
+    console.log('video.videoWidth / videoHeight :', vW, '/', vH);
+    console.log('window.innerWidth / innerHeight :', window.innerWidth, '/', window.innerHeight);
+    const arCanvas = sceneEl.components.screenshot.getCanvas('perspective');
+    console.log('AR-canvas size :', arCanvas.width, '×', arCanvas.height);
+    console.log('final canvas CSS-size :', window.innerWidth, '×', window.innerHeight);
+    console.log('video drawImage params :', 'dx=', dx, 'dy=', dy, 'dw=', dw, 'dh=', dh);
+    console.groupEnd();
+    /* ---------- /ДЕБАГ-ЛОГ ---------- */
+  
+    ctx.drawImage(video, 0, 0, vW, vH, dx, dy, dw, dh);
+    ctx.drawImage(arCanvas, 0, 0, window.innerWidth, window.innerHeight);
+  
+    /* ---------- 3. показываем превью ---------- */
     const dataURL = canvas.toDataURL('image/png');
-  
-    /* 3. показываем превью */
-    preview.src = dataURL;
+    preview.src   = dataURL;
     overlay.classList.remove('hidden');
     video.play();
   
-    /* 4. кнопка «Скачать» – синхронно */
+    /* ---------- 4. кнопка «Скачать» ---------- */
     downBtn.onclick = () => {
-      /* 4a. скачивание */
       const link = document.createElement('a');
       link.href = dataURL;
       link.download = 'mindar_' + Date.now() + '.png';
-      document.body.appendChild(link);   // для Яндекса
+      document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
-      /* 4b. сразу показываем второй поп-ап */
-     //afterImg.src = dataURL;   // если хотите без картинки – уберите строку
       afterOverlay.classList.remove('hidden');
     };
   });
