@@ -92,3 +92,19 @@ const awaitScreenshot = setInterval(() => {
       afterOverlay.classList.remove('hidden');
     };
   });
+
+  // Ждём, пока исчезнет #loading-overlay, и только потом показываем кнопку
+const loadingOverlay = document.getElementById('loading-overlay');
+const photoBtn = document.getElementById('photoBtn');
+
+const loadingObserver = new MutationObserver(() => {
+  if (loadingOverlay.classList.contains('hidden')) {
+    photoBtn.style.visibility = 'visible';
+    loadingObserver.disconnect(); // больше не нужен
+  }
+});
+
+loadingObserver.observe(loadingOverlay, {
+  attributes: true,
+  attributeFilter: ['class']
+});

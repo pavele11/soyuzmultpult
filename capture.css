@@ -59,3 +59,7 @@
     margin: 0 auto 15px;  /* отступ снизу */
   }
   .hidden{ display:none !important; }
+
+  #photoBtn {
+    visibility: hidden;
+  }
