@@ -25,11 +25,26 @@
     height: 100%;
 }
 
+.image-carousel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
 .main-image {
+    position: absolute;
     max-width: 90vw;
     max-height: 70vh;
     height: auto;
     object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.main-image.active {
+    opacity: 1;
 }
 
 .camera-icon {
@@ -46,13 +61,17 @@
     font-size: 32px;
     line-height: 1.3;
     max-width: 500px;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 /* Адаптивность */
 
 /* Планшеты */
 @media (min-width: 481px) and (max-width: 1024px) {
+    .image-carousel {
+        margin-bottom: 120px;
+    }
+    
     .main-image {
         max-width: 80vw;
         max-height: 75vh;
@@ -67,12 +86,16 @@
         font-family: 'SoyuzMult', Arial, sans-serif !important;
         font-size: 34px;
         max-width: 550px;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 }
 
 /* Десктопы */
 @media (min-width: 1025px) {
+    .image-carousel {
+        margin-bottom: 140px;
+    }
+    
     .main-image {
         max-width: 70vw;
         max-height: 80vh;
@@ -87,12 +110,16 @@
         font-family: 'SoyuzMult', Arial, sans-serif !important;
         font-size: 36px;
         max-width: 600px;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 }
 
 /* Мобильные устройства */
 @media (max-width: 480px) {
+    .image-carousel {
+        margin-bottom: 100px;
+    }
+    
     .main-image {
         max-width: 85vw;
         max-height: 65vh;
@@ -100,18 +127,22 @@
     
     .camera-icon {
         max-width: 100px;
-        margin-top: 40px;
+        margin-top: 60px;
     }
     
     .scanning-text {
         font-family: 'SoyuzMult', Arial, sans-serif !important;
         font-size: 26px;
         max-width: 400px;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 }
 
 @media (max-width: 360px) {
+    .image-carousel {
+        margin-bottom: 90px;
+    }
+    
     .main-image {
         max-width: 90vw;
         max-height: 60vh;
@@ -119,13 +150,13 @@
     
     .camera-icon {
         max-width: 90px;
-        margin-top: 35px;
+        margin-top: 50px;
     }
     
     .scanning-text {
         font-family: 'SoyuzMult', Arial, sans-serif !important;
         font-size: 24px;
         max-width: 380px;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 }
