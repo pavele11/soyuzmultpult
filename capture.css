@@ -1,6 +1,6 @@
 /* кнопка «Сделать фото» */
 #photoBtn{
-    position:fixed; bottom:20px; right:20px; z-index:9999;
+    position:fixed; bottom:20px; right:20px; z-index:9998;
     padding:12px 24px; background:#fff; border:none; border-radius:8px;
     font-size:16px; box-shadow:0 2px 8px rgba(0,0,0,.25);
   }
@@ -59,7 +59,3 @@
     margin: 0 auto 15px;  /* отступ снизу */
   }
   .hidden{ display:none !important; }
-
-  #photoBtn {
-    visibility: hidden;
-  }
