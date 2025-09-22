@@ -54,7 +54,7 @@
   <div id="afterOverlay" class="hidden">
     <div id="afterBox">
       <img id="afterImg" src="https://via.placeholder.com/400x300/007aff/ffffff?text=Супер!" alt="заставка">
-      <p>Круто получилось!<br>А теперь заходите к нам в парк!</p>
+      <p> </p>
       <a href="https://souzmultpark.ru/" target="_blank">
         <button id="goParkBtn">Посмотреть сеансы</button>
       </a>
@@ -63,12 +63,25 @@
   </div>
 
   <!-- AR-сцена (ваша) -->
-  <a-scene mindar-image="imageTargetSrc:sm_3x.mind; maxTrack:3;
-                        uiLoading:#loading-overlay; uiScanning:#scanning-overlay; uiError:no;"
-           color-space="sRGB"
-           renderer="colorManagement: true, physicallyCorrectLights"
-           vr-mode-ui="enabled: false"
-           device-orientation-permission-ui="enabled: false">
+  <a-scene
+  mindar-image="
+    imageTargetSrc: sm_3x.mind;
+    maxTrack: 3;
+    uiLoading: #loading-overlay;
+    uiScanning: #scanning-overlay;
+    uiError: no;
+    deviceConstraints: {
+      video: {
+        width:  { ideal: 1280 },
+        height: { ideal: 720  },
+        facingMode: 'environment'
+      }
+    }"
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
+
     <!-- Ассеты -->
     <a-assets>
       <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"/>
