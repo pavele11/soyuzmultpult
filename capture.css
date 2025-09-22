@@ -26,13 +26,32 @@
     box-shadow: none;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, calc(-50% + 20px));
     width: 130px;
     height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+    -moz-outline: none;
   }
+
+#photoBtn:focus,
+#photoBtn:active,
+#photoBtn:hover {
+    outline: none;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+}
+
+#photoBtn::-moz-focus-inner {
+    border: 0;
+}
   
   /* затемнение под поп-апы */
   #previewOverlay,
