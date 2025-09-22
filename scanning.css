@@ -1,41 +1,131 @@
 #scanning-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(32, 24, 50, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 #scanning-overlay.hidden {
-  display: none;
+    display: none;
 }
 
-.scanning-content {
-  text-align: center;
-  color: white;
+.scanning-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
-.scanning-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #333;
-  border-top: 5px solid #fff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
+.main-image {
+    max-width: 90vw;
+    max-height: 70vh;
+    height: auto;
+    object-fit: contain;
+}
+
+.camera-icon {
+    max-width: 120px;
+    height: auto;
+    margin-top: 50px;
 }
 
 .scanning-text {
-  font-size: 18px;
-  font-weight: bold;
+    color: white;
+    font-family: 'SoyuzMult', Arial, sans-serif !important;
+    font-weight: bold !important;
+    text-align: center;
+    font-size: 32px;
+    line-height: 1.3;
+    max-width: 500px;
+    margin-top: 20px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Адаптивность */
+
+/* Планшеты */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .main-image {
+        max-width: 80vw;
+        max-height: 75vh;
+    }
+    
+    .camera-icon {
+        max-width: 140px;
+        margin-top: 60px;
+    }
+    
+    .scanning-text {
+        font-family: 'SoyuzMult', Arial, sans-serif !important;
+        font-size: 34px;
+        max-width: 550px;
+        margin-top: 20px;
+    }
+}
+
+/* Десктопы */
+@media (min-width: 1025px) {
+    .main-image {
+        max-width: 70vw;
+        max-height: 80vh;
+    }
+    
+    .camera-icon {
+        max-width: 160px;
+        margin-top: 70px;
+    }
+    
+    .scanning-text {
+        font-family: 'SoyuzMult', Arial, sans-serif !important;
+        font-size: 36px;
+        max-width: 600px;
+        margin-top: 20px;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 480px) {
+    .main-image {
+        max-width: 85vw;
+        max-height: 65vh;
+    }
+    
+    .camera-icon {
+        max-width: 100px;
+        margin-top: 40px;
+    }
+    
+    .scanning-text {
+        font-family: 'SoyuzMult', Arial, sans-serif !important;
+        font-size: 26px;
+        max-width: 400px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .main-image {
+        max-width: 90vw;
+        max-height: 60vh;
+    }
+    
+    .camera-icon {
+        max-width: 90px;
+        margin-top: 35px;
+    }
+    
+    .scanning-text {
+        font-family: 'SoyuzMult', Arial, sans-serif !important;
+        font-size: 24px;
+        max-width: 380px;
+        margin-top: 20px;
+    }
 }
