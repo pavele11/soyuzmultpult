@@ -70,7 +70,6 @@ body {
 .button-background {
     width: 250px !important;
     height: 250px !important;
-    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
     background-image: url('Images/button_start.png');
     background-size: contain;
     background-position: center;
@@ -103,6 +102,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding-bottom: 30px;
 }
 
 /* Анимация */
