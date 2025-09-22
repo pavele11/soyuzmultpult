@@ -28,11 +28,16 @@
     </div>
   </div>
 
+  <!-- Access Popup -->
+  <div class="access-popup">
+    <img src="Images/access_popup.png" alt="Access Permission">
+  </div>
+
   <!-- оверлей загрузки -->
   <div id="loading-overlay">
     <div class="loading-content">
       <div class="spinner"></div>
-      <div class="loading-text">Загружаем ваше будущее "ВАУУ", подождите</div>
+      <div class="loading-text">Загружаем ваше будущее «Вааау». Пожалуйста, подождите</div>
     </div>
   </div>
 
@@ -112,5 +117,17 @@
 
   <!-- логика скриншотов -->
   <script src="capture.js"></script>
+  
+  <!-- Анимация access popup -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const accessPopup = document.querySelector('.access-popup');
+      
+      // Показываем popup через 1 секунду после загрузки
+      setTimeout(() => {
+        accessPopup.classList.add('show');
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
