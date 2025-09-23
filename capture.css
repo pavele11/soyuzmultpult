@@ -76,7 +76,6 @@
     align-items: center;
     justify-content: center;
     text-align:center; 
-    box-shadow:0 8px 32px rgba(0,0,0,.3);
     padding: 40px 20px 20px 20px;
   }
   
@@ -122,7 +121,22 @@
     padding: 0;
   }
   
+  /* иллюстрация камеры в левом верхнем углу */
+  .camera-illustration {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+    padding: 0;
+  }
+  
   .close-button img {
+    width: 35px;
+    height: 35px;
+    display: block;
+  }
+  
+  .camera-illustration img {
     width: 35px;
     height: 35px;
     display: block;
@@ -231,6 +245,16 @@
     height: 90px;
   }
   
+  .camera-illustration {
+    top: -70px;
+    left: -45px;
+  }
+  
+  .camera-illustration img {
+    width: 162px;
+    height: 162px;
+  }
+  
   .download-button {
     bottom: -70px;
   }
@@ -266,6 +290,16 @@
   .close-button img {
     width: 90px;
     height: 90px;
+  }
+  
+  .camera-illustration {
+    top: -35px;
+    left: -55px;
+  }
+  
+  .camera-illustration img {
+    width: 189px;
+    height: 189px;
   }
   
   .download-button {
@@ -304,6 +338,16 @@
   .close-button img {
     width: 90px;
     height: 90px;
+  }
+  
+  .camera-illustration {
+    top: -35px;
+    left: -55px;
+  }
+  
+  .camera-illustration img {
+    width: 189px;
+    height: 189px;
   }
   
   .download-button {
