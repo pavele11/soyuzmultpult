@@ -134,8 +134,8 @@ body {
 /* Мобильные устройства */
 @media (max-width: 480px) {
     .logo {
-        margin-top: 60px;
-        margin-bottom: 30px;
+        margin-top: -10px;
+        margin-bottom: 0px;
     }
     
     .logo img {
@@ -145,7 +145,8 @@ body {
     .text {
         font-size: 26px;
         line-height: 1.25;
-        margin-bottom: 35px;
+        margin-top: -15px;
+        margin-bottom: 15px;
         max-width: 400px;
     }
     
@@ -156,8 +157,8 @@ body {
 
 @media (max-width: 360px) {
     .logo {
-        margin-top: 50px;
-        margin-bottom: 25px;
+        margin-top: -15px;
+        margin-bottom: 0px;
     }
     
     .logo img {
@@ -167,7 +168,8 @@ body {
     .text {
         font-size: 24px;
         line-height: 1.25;
-        margin-bottom: 30px;
+        margin-top: -20px;
+        margin-bottom: 12px;
         max-width: 380px;
     }
     
