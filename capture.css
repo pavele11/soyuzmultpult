@@ -216,18 +216,27 @@
   }
   
   .save-text {
-    font-size: 26px;
+    font-size: 24px;
     max-width: 95%;
-    line-height: 1.1;
+    line-height: 1.05;
+  }
+  
+  .close-button {
+    top: -35px;
+    right: -25px;
   }
   
   .close-button img {
-    width: 30px;
-    height: 30px;
+    width: 90px;
+    height: 90px;
+  }
+  
+  .download-button {
+    bottom: -70px;
   }
   
   .download-button img {
-    max-width: 150px;
+    max-width: 270px;
   }
 }
 
@@ -249,13 +258,60 @@
     line-height: 1.15;
   }
   
+  .close-button {
+    top: -5px;
+    right: -25px;
+  }
+  
   .close-button img {
-    width: 32px;
-    height: 32px;
+    width: 90px;
+    height: 90px;
+  }
+  
+  .download-button {
+    bottom: -30px;
   }
   
   .download-button img {
-    max-width: 180px;
+    max-width: 360px;
+  }
+}
+
+/* ПК (больше 1024px) */
+@media (min-width: 1025px) {
+  #previewBox {
+    width: min(420px, 88vw);
+    height: min(680px, 78vh);
+    padding: 38px 18px 18px 18px;
+  }
+  
+  #previewImg {
+    max-height: 330px;
+    width: 90%;
+  }
+  
+  .save-text {
+    font-size: 34px;
+    max-width: 98%;
+    line-height: 1.15;
+  }
+  
+  .close-button {
+    top: -5px;
+    right: -25px;
+  }
+  
+  .close-button img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .download-button {
+    bottom: -30px;
+  }
+  
+  .download-button img {
+    max-width: 360px;
   }
 }
 
