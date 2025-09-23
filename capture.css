@@ -80,16 +80,32 @@
   }
   
   #afterBox{
-    background:#fff; 
+    background-image: url('Images/save_photo_bg.png'); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    background-size: contain;
     border-radius:12px;
-    padding:20px; 
-    max-width:90vw; 
-    max-height:90vh;
+    width: min(480px, 90vw);
+    height: min(720px, 80vh);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align:center; 
-    box-shadow:0 8px 32px rgba(0,0,0,.3);
+    padding: 40px 20px 20px 20px;
   }
   
   #previewImg {
+    width: 90%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  #afterImg {
     width: 90%;
     height: auto;
     max-height: 360px;
@@ -130,6 +146,15 @@
     padding: 0;
   }
   
+  /* иллюстрация VR в левом верхнем углу */
+  .vr-illustration {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+    padding: 0;
+  }
+  
   .close-button img {
     width: 35px;
     height: 35px;
@@ -137,6 +162,12 @@
   }
   
   .camera-illustration img {
+    width: 35px;
+    height: 35px;
+    display: block;
+  }
+  
+  .vr-illustration img {
     width: 35px;
     height: 35px;
     display: block;
@@ -161,39 +192,7 @@
     display: block;
   }
 
-  #afterBox img{
-    max-width:100%; max-height:50vh; display:block; margin:0 auto 15px;
-  }
-  
-  #afterBox p{
-    margin:0 0 20px; font-size:18px;
-  }
-  
-  #afterBox button,
-  #afterBox a button{
-    margin:6px; padding:10px 20px; font-size:16px; border:none;
-    border-radius:6px; cursor:pointer;
-  }
-  
-  #goParkBtn{ background:#ff5555; color:#fff; }
-  #laterBtn { background:#ccc; }
 
-  /* одинаковая ширина/высота для обоих поп-апов */
-#previewBox,
-#afterBox {
-  width: 90vw;          /* максимум экрана */
-  max-width: 420px;     /* фикс-ширина как у первого */
-  min-height: 340px;    /* чтобы не сжимался */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-#afterBox img {
-    width: 100%;          /* ширина блока */
-    max-height: 200px;    /* фикс-высота, как у обычного баннера */
-    object-fit: cover;    /* красиво обрежет лишнее, сохранив пропорции */
-    margin: 0 auto 15px;  /* отступ снизу */
-  }
   .hidden{ display:none !important; }
 
 /* Адаптивность для пульта */
@@ -262,6 +261,27 @@
   .download-button img {
     max-width: 270px;
   }
+  
+  #afterBox {
+    width: 85vw;
+    height: min(450px, 60vh);
+    padding: 35px 15px 15px 15px;
+  }
+  
+  #afterImg {
+    max-height: 300px;
+    width: 95%;
+  }
+  
+  .vr-illustration {
+    top: -70px;
+    left: -45px;
+  }
+  
+  .vr-illustration img {
+    width: 162px;
+    height: 162px;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {
@@ -308,6 +328,27 @@
   
   .download-button img {
     max-width: 360px;
+  }
+  
+  #afterBox {
+    width: min(420px, 88vw);
+    height: min(680px, 78vh);
+    padding: 38px 18px 18px 18px;
+  }
+  
+  #afterImg {
+    max-height: 330px;
+    width: 90%;
+  }
+  
+  .vr-illustration {
+    top: -35px;
+    left: -55px;
+  }
+  
+  .vr-illustration img {
+    width: 189px;
+    height: 189px;
   }
 }
 
@@ -356,6 +397,27 @@
   
   .download-button img {
     max-width: 360px;
+  }
+  
+  #afterBox {
+    width: min(420px, 88vw);
+    height: min(680px, 78vh);
+    padding: 38px 18px 18px 18px;
+  }
+  
+  #afterImg {
+    max-height: 330px;
+    width: 90%;
+  }
+  
+  .vr-illustration {
+    top: -35px;
+    left: -55px;
+  }
+  
+  .vr-illustration img {
+    width: 189px;
+    height: 189px;
   }
 }
 

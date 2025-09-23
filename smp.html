@@ -74,12 +74,19 @@
   <!-- поп-ап после скачивания -->
   <div id="afterOverlay" class="hidden">
     <div id="afterBox">
-      <img id="afterImg" src="https://via.placeholder.com/400x300/007aff/ffffff?text=Супер!" alt="заставка">
-      <p> </p>
+      <button id="laterBtn" class="close-button">
+        <img src="Images/close_button.png" alt="Close">
+      </button>
+      <div class="vr-illustration">
+        <img src="Images/vr_illustration.png" alt="VR">
+      </div>
+      <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
+      <div class="save-text">Нажмите КУПИТЬ БИЛЕТ<br>и перейдите на сайт<br>Союзмультпарка</div>
       <a href="https://souzmultpark.ru/" target="_blank">
-        <button id="goParkBtn">Посмотреть сеансы</button>
+        <button id="goParkBtn" class="download-button">
+          <img src="Images/buy_ticket.png" alt="Buy Ticket">
+        </button>
       </a>
-      <button id="laterBtn">В другой раз обязательно!</button>
     </div>
   </div>
 
