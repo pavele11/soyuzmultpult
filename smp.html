@@ -93,8 +93,8 @@
   <!-- AR-сцена (ваша) -->
   <a-scene
   mindar-image="
-    imageTargetSrc: sm_3x.mind;
-    maxTrack: 3;
+    imageTargetSrc: gena-cheba-shapo-scultures.mind;
+    maxTrack: 1;
     uiLoading: #loading-overlay;
     uiScanning: #scanning-overlay;
     uiError: no;
@@ -118,12 +118,13 @@
       <img id="Oranges" src="Images/Oranges.png"/>
       <img id="Table" src="Images/Table.png"/>
       <img id="Lariska" src="Images/Lariska.png"/>
+      <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model.glb"></a-asset-item>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0">
-      <a-plane material="shader:flat;" src="#Lariska" position="0.4 -0.5 0" height="1" width="1" rotation="0 0 0"></a-plane>
+      <a-entity gltf-model="#gena-cheba-shapo-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
     </a-entity>
 
     <!-- Чебурашка -->
