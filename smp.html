@@ -93,7 +93,7 @@
   <!-- AR-сцена (ваша) -->
   <a-scene
   mindar-image="
-    imageTargetSrc: gena-cheba-shapo-scultures.mind;
+    imageTargetSrc: gena-cheba-shapo-volk-scultures_3.mind;
     maxTrack: 1;
     uiLoading: #loading-overlay;
     uiScanning: #scanning-overlay;
@@ -119,6 +119,7 @@
       <img id="Table" src="Images/Table.png"/>
       <img id="Lariska" src="Images/Lariska.png"/>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model.glb"></a-asset-item>
+      <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -127,17 +128,11 @@
       <a-entity gltf-model="#gena-cheba-shapo-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
     </a-entity>
 
-    <!-- Чебурашка -->
     <a-entity mindar-image-target="targetIndex: 1">
-      <a-entity id="gif-element" geometry="primitive: plane; height:1; width:2"
-                material="shader: gif; src: url(Video.gif)" position="0 2 0" visible="true"></a-entity>
-      <a-plane material="shader:flat; transparent: true; opacity: 1;" src="#Oranges" position="0 -0.25 0" height="1" width="1" rotation="0 0 0" render-order="1"></a-plane>
+      <a-entity gltf-model="#volk-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
     </a-entity>
 
-    <a-entity mindar-image-target="targetIndex: 2">
-      <a-plane material="shader:flat; transparent: true; opacity: 1;" src="#Table" position="-0.3 -0.35 -0.1" height="2" width="2" rotation="0 0 0" render-order="2"></a-plane>
-    </a-entity>
-  </a-scene>
+ 
 
   <!-- логика скриншотов -->
   <script src="capture.js"></script>
