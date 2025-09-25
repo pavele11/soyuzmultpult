@@ -47,7 +47,7 @@ afterOverlay.addEventListener('click', e => { if (e.target === afterOverlay) aft
 
 /* ---------- основной клик «Сделать фото» ---------- */
 document.getElementById('photoBtn').addEventListener('click', () => {
-  const video   = document.querySelector('video');
+  const video = document.querySelector('a-scene video');
   const sceneEl = document.querySelector('a-scene');
   if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
 
