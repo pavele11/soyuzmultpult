@@ -64,6 +64,12 @@
         gifEl.setAttribute('visible', true);
       });
     </script>
+    <script>
+      const gifImg = document.querySelector('#myGif');
+      gifImg.addEventListener('load', () => {
+        document.querySelector('#gif-element').setAttribute('visible', true);
+      });
+    </script>
 
 </head>
 
