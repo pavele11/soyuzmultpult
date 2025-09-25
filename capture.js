@@ -46,81 +46,59 @@ laterBtn.addEventListener('click', () => {
 afterOverlay.addEventListener('click', e => { if (e.target === afterOverlay) afterOverlay.classList.add('hidden'); });
 
 /* ---------- основной клик «Сделать фото» ---------- */
-document.getElementById('photoBtn').addEventListener('click', () => {
-  const video = document.querySelector('a-scene video');
-  const sceneEl = document.querySelector('a-scene');
-  if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
+/* ---------- «Сделать фото» ---------- */
+document.getElementById('photoBtn').addEventListener('click', async () => {
+  const btn   = document.getElementById('photoBtn');
+  const scene = document.querySelector('a-scene');
+  /* 1. берём именно системное видео MindAR */
+  const video = scene.querySelector('video');
 
+  /* 2. если кадр ещё не пришёл – просто ничего не делаем, молча выходим */
+  if (!video || !video.videoWidth) return;
+
+  btn.disabled = true;                       // защита от двойного клика
+
+  /* 3. один кадр на паузу – достаточно, чтобы нарисовать его в canvas */
   video.pause();
 
-  /* 1. холст = размер экрана */
+  /* 4. создаём canvas = размер экрана */
   const canvas = document.createElement('canvas');
-  canvas.width  = window.innerWidth  * window.devicePixelRatio;
-  canvas.height = window.innerHeight * window.devicePixelRatio;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = window.innerWidth  * dpr;
+  canvas.height = window.innerHeight * dpr;
   const ctx = canvas.getContext('2d');
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  ctx.scale(dpr, dpr);
 
-  /* 2. видео «object-fit:contain» по центру */
-  const vW = video.videoWidth;
-  const vH = video.videoHeight;
+  /* 5. рисуем фон */
+  const bgScale = Math.max(window.innerWidth / bgImg.width, window.innerHeight / bgImg.height);
+  ctx.drawImage(bgImg,
+                (window.innerWidth  - bgImg.width  * bgScale) / 2,
+                (window.innerHeight - bgImg.height * bgScale) / 2,
+                bgImg.width  * bgScale,
+                bgImg.height * bgScale);
+
+  /* 6. рисуем видео «object-fit:contain» */
+  const vW = video.videoWidth,  vH = video.videoHeight;
   const scale = Math.min(window.innerWidth / vW, window.innerHeight / vH);
-  const dw = vW * scale;
-  const dh = vH * scale;
+  const dw = vW * scale,  dh = vH * scale;
   const dx = (window.innerWidth  - dw) / 2;
   const dy = (window.innerHeight - dh) / 2;
-
-  /* 3. фон */
-  const bgScale = Math.max(window.innerWidth / bgImg.width, window.innerHeight / bgImg.height);
-  const bw = bgImg.width  * bgScale;
-  const bh = bgImg.height * bgScale;
-  const bx = (window.innerWidth  - bw) / 2;
-  const by = (window.innerHeight - bh) / 2;
-  ctx.drawImage(bgImg, bx, by, bw, bh);
-
-  /* 4. видео */
   ctx.drawImage(video, 0, 0, vW, vH, dx, dy, dw, dh);
 
-  /* 5. AR-слой */
-  const arCanvas = sceneEl.components.screenshot.getCanvas('perspective');
+  /* 7. рисуем AR-слой */
+  const arCanvas = scene.components.screenshot.getCanvas('perspective');
   ctx.drawImage(arCanvas, 0, 0, window.innerWidth, window.innerHeight);
 
-  /* 6. конвертируем в Blob и создаём URL сразу */
+  /* 8. сразу возвращаем поток в PLAY */
+  video.play();
+
+  /* 9. в Blob и показываем превью */
   canvas.toBlob(blob => {
-    const blobUrl = URL.createObjectURL(blob);
-
-    /* 7. показываем превью */
-    currentBlobUrl = blobUrl;
-    preview.src = blobUrl;
+    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = URL.createObjectURL(blob);
+    preview.src = currentBlobUrl;
     overlay.classList.remove('hidden');
-    video.play();
-
-    /* 8. кнопка «Скачать» – Яндекс-friendly */
-downBtn.onclick = () => {
-  const isYandex = /YaBrowser/.test(navigator.userAgent);
-
-  if (isYandex) {
-    /* для Яндекса делаем dataURL */
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const link = document.createElement('a');
-      link.href = reader.result;          // dataURL
-      link.download = 'SMP_' + Date.now() + '.png';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-    reader.readAsDataURL(blob);           // читаем Blob → dataURL
-  } else {
-    /* для всех остальных – быстрый Blob-URL */
-    const link = document.createElement('a');
-    link.href = blobUrl;
-    link.download = 'mindar_' + Date.now() + '.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-  afterOverlay.classList.remove('hidden');
-};
+    btn.disabled = false;              // кнопка снова активна
   }, 'image/png');
 });
 
