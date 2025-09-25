@@ -55,6 +55,15 @@
   }
 });
   </script>
+    <script>
+      const scene   = document.querySelector('a-scene');
+      const gifEl   = document.querySelector('#gif-element');
+    
+      // когда ВСЕ ассеты готовы
+      scene.addEventListener('loaded', () => {
+        gifEl.setAttribute('visible', true);
+      });
+    </script>
 
 </head>
 
@@ -158,6 +167,7 @@
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
+      <img id="myGif" src="Video.gif" crossorigin="anonymous">
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -300,6 +310,6 @@
       });
     });
   </script>
-  
+
 </body>
 </html>
