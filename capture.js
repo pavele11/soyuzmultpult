@@ -51,7 +51,7 @@ document.getElementById('photoBtn').addEventListener('click', async () => {
   const btn   = document.getElementById('photoBtn');
   const scene = document.querySelector('a-scene');
   /* 1. берём именно системное видео MindAR */
-  const video = scene.querySelector('video');
+  const video = [...document.querySelectorAll('video')].find(v => v.id !== 'myVideo');
 
   /* 2. если кадр ещё не пришёл – просто ничего не делаем, молча выходим */
   if (!video || !video.videoWidth) return;
