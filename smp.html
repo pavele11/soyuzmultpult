@@ -18,7 +18,6 @@
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="aframe-gif-shader.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-  <script src="aframe-spritesheet-animation.js"></script>
 
 
   <script>
@@ -159,7 +158,6 @@
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
-      <img id="sheet" src="Images/spritesheet.png">
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -171,14 +169,13 @@
       position="0 0 0"
       scale="0.5 0.5 0.5">
     </a-entity>
-      <a-plane
+      <a-entity
       id="gif-element"
       geometry="primitive: plane; height:0.35; width:0.51"
-      material="shader: flat; src: #sheet; transparent: false;"
-      spritesheet-animation="rows: 8; columns: 6; frameDuration: 0.1; loop: true;"
+      material="shader: gif; src: url(Video.gif)"
       position="-0.03 0.90 0.15"
       visible="true"
-      scale="0 0 0"></a-plane>
+      scale="0 0 0"></a-entity>
     </a-entity>
 
     <a-entity mindar-image-target="targetIndex: 1">
