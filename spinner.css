@@ -124,7 +124,7 @@ body {
 /* Мобильные устройства */
 @media (max-width: 480px) {
     .access-popup img {
-        max-width: 500px;
+        max-width: 400px;
     }
     
     .spinner {
@@ -142,7 +142,7 @@ body {
 
 @media (max-width: 360px) {
     .access-popup img {
-        max-width: 440px;
+        max-width: 352px;
     }
     
     .spinner {
