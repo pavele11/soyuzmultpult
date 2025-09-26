@@ -181,9 +181,21 @@
       scale="0 0 0"></a-plane>
     </a-entity>
 
-    <a-entity mindar-image-target="targetIndex: 1">
-      <a-entity gltf-model="#volk-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
-      
+    <a-entity mindar-image-target="targetIndex: 1" play-on-visible>
+      <a-entity
+      id="animated-model"
+      gltf-model="#volk-model"
+      position="0 0 0"
+      scale="0.5 0.5 0.5">
+    </a-entity>
+    <a-plane
+    id="gif-element"
+    geometry="primitive: plane; height:0.35; width:0.51"
+    material="shader: flat; src: #sheet; transparent: false;"
+    spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
+    position="-0.03 0.80 0.15"
+    visible="true"
+    scale="0 0 0"></a-plane>
     </a-entity>
 
  
