@@ -134,7 +134,6 @@
     uiLoading: #loading-overlay;
     uiScanning: #scanning-overlay;
     uiError: no;
-    smooth: true;              
     missTolerance: 10;          
     filterMinCF: 0.0001;       
     filterBeta: 0.0001;         
@@ -152,7 +151,7 @@
   device-orientation-permission-ui="enabled: false">
 
     <!-- Ассеты -->
-    <a-assets>
+    <a-assets timeout="10000">
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
       <img id="sheet" src="Images/sprite_sheet.png">
