@@ -82,8 +82,8 @@
 @media (min-width: 481px) and (max-width: 1024px) {
     .stairs-image {
         top: 30px;
-        max-width: 90vw;
-        max-height: 25vh;
+        max-width: 45vw;
+        max-height: 12.5vh;
     }
     
     .image-carousel {
