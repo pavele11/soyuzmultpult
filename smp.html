@@ -16,18 +16,20 @@
   <!-- библиотеки MindAR + A-Frame -->
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="aframe-gif-shader.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script src="aframe-spritesheet-animation.js"></script>
 
 
   <script>
   AFRAME.registerComponent('play-on-visible', {
   init() {
-    const model    = this.el.firstElementChild;            // GLB-модель
-    const videoEnt = this.el.querySelector('#video-element'); // наша <a-video>
+    const model   = this.el.firstElementChild;               // gltf
+    const gifPlane = this.el.querySelector('#gif-element');  // плоскость
 
-    /* при появлении маркера */
+    /* появление маркера */
     this.el.addEventListener('targetFound', () => {
-      /* 1. запуск GLB-анимации (у вас уже было) */
+      /* GLB-анимация */
       model.removeAttribute('animation-mixer');
       model.setAttribute('animation-mixer', {
         loop: 'once',
@@ -35,37 +37,26 @@
         timeScale: 1
       });
 
-      /* 2. показываем видео-плейн (scale 0→1) */
-      videoEnt.removeAttribute('animation__scale');
-      videoEnt.setAttribute('animation__scale', {
+      /* scale-анимация GIF 0→1 */
+      gifPlane.removeAttribute('animation__scale'); // сброс
+      gifPlane.setAttribute('animation__scale', {
         property: 'scale',
         from: '0 0 0',
-        to:   '1 1 1',
-        dur:  800,
+        to: '1 1 1',
+        dur: 800,
         easing: 'easeOutBack'
       });
-
-      /* 3. ГАРАНТИЯ запуска видео */
-      const videoDOM = videoEnt.object3DMap.mesh.material.map.image; // <video>
-      if (videoDOM) {
-        videoDOM.currentTime = 0; // с начала
-        videoDOM.play();          // запускаем
-      }
     });
 
-    /* при потере маркера */
+    /* исчезновение маркера (по желанию) */
     this.el.addEventListener('targetLost', () => {
-      /* 1. прячем видео */
-      videoEnt.removeAttribute('animation__scale');
-      videoEnt.setAttribute('scale', '0 0 0');
-
-      /* 2. ставим видео на паузу (экономим батарею) */
-      const videoDOM = videoEnt.object3DMap.mesh.material.map.image;
-      if (videoDOM) videoDOM.pause();
+      gifPlane.removeAttribute('animation__scale');
+      gifPlane.setAttribute('scale', '0 0 0'); // прячем сразу
     });
   }
 });
-</script>
+  </script>
+
 </head>
 
 <body>
@@ -168,13 +159,7 @@
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
-      <video id="myVideo"
-      src="Video.mp4"
-      autoplay
-      muted
-      loop
-      playsinline
-      crossorigin="anonymous"></video>
+      <img id="sheet" src="Images/spritesheet.png">
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -186,17 +171,19 @@
       position="0 0 0"
       scale="0.5 0.5 0.5">
     </a-entity>
-    <a-video id="video-element"
-    src="#myVideo"
-    width="0.51"
-    height="0.35"
-    position="-0.03 0.90 0.15"
-    scale="0 0 0"
-    material="transparent:false; alphaTest:0.5"></a-video>
+      <a-plane
+      id="gif-element"
+      geometry="primitive: plane; height:0.35; width:0.51"
+      material="shader: flat; src: #sheet; transparent: false;"
+      spritesheet-animation="rows: 8; columns: 6; frameDuration: 0.1; loop: true;"
+      position="-0.03 0.90 0.15"
+      visible="true"
+      scale="0 0 0"></a-plane>
     </a-entity>
 
     <a-entity mindar-image-target="targetIndex: 1">
       <a-entity gltf-model="#volk-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
+      
     </a-entity>
 
  
@@ -317,6 +304,6 @@
       });
     });
   </script>
-
+  
 </body>
 </html>
