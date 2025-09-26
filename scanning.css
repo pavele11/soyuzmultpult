@@ -147,8 +147,7 @@
     }
     
     .image-carousel {
-        margin-bottom: 150px;
-        margin-top: 90px;
+        margin-top: 120px;
     }
     
     .main-image {
@@ -177,6 +176,7 @@
     }
     
     .image-carousel {
+        margin-top: 90px;
         margin-bottom: 90px;
     }
     
