@@ -11,12 +11,10 @@
 
   <!-- новые стили поп-апов -->
   <link rel="stylesheet" href="capture.css">
-  <link rel="preload" href="Video.gif" as="image">
 
   <!-- библиотеки MindAR + A-Frame -->
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <script src="aframe-gif-shader.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="aframe-spritesheet-animation.js"></script>
 
@@ -43,7 +41,7 @@
         property: 'scale',
         from: '0 0 0',
         to: '1 1 1',
-        dur: 800,
+        dur: 1000,
         easing: 'easeOutBack'
       });
     });
@@ -63,15 +61,13 @@
   <!-- оверлей сканирования -->
   <div id="scanning-overlay" class="hidden">
     <div class="scanning-container">
+      <img class="stairs-image" src="Images/stairs.png" alt="Stairs">
       <div class="image-carousel">
         <img class="main-image active" src="Images/gena_cheba_shapo.png" alt="Gena Cheba Shapo">
-        <img class="main-image" src="Images/cheba.png" alt="Cheba">
-        <img class="main-image" src="Images/gena.png" alt="Gena">
-        <img class="main-image" src="Images/shapo.png" alt="Shapo">
         <img class="main-image" src="Images/volk.png" alt="Volk">
       </div>
       <img class="camera-icon" src="Images/camera_icon.png" alt="Camera">
-      <div class="scanning-text">Наведите камеру<br>на одну или несколько скульптур</div>
+      <div class="scanning-text">Наведите камеру<br>на скульптуру</div>
     </div>
   </div>
 
@@ -159,7 +155,7 @@
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
-      <img id="sheet" src="Images/spritesheet.png">
+      <img id="sheet" src="Images/sprite_sheet.png">
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -175,15 +171,27 @@
       id="gif-element"
       geometry="primitive: plane; height:0.35; width:0.51"
       material="shader: flat; src: #sheet; transparent: false;"
-      spritesheet-animation="rows: 8; columns: 6; frameDuration: 0.1; loop: true;"
+      spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
       position="-0.03 0.90 0.15"
       visible="true"
       scale="0 0 0"></a-plane>
     </a-entity>
 
-    <a-entity mindar-image-target="targetIndex: 1">
-      <a-entity gltf-model="#volk-model" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
-      
+    <a-entity mindar-image-target="targetIndex: 1" play-on-visible>
+      <a-entity
+      id="animated-model"
+      gltf-model="#volk-model"
+      position="0 0 0"
+      scale="0.5 0.5 0.5">
+    </a-entity>
+    <a-plane
+    id="gif-element"
+    geometry="primitive: plane; height:0.35; width:0.51"
+    material="shader: flat; src: #sheet; transparent: false;"
+    spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
+    position="-0.03 0.80 0.15"
+    visible="true"
+    scale="0 0 0"></a-plane>
     </a-entity>
 
  
