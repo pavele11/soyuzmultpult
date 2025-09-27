@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>AR-скриншот</title>
 
   <!-- ваши старые стили -->
@@ -100,7 +100,7 @@
         <img src="Images/camera_illustration.png" alt="Camera">
       </div>
       <img id="previewImg" alt="preview">
-      <div class="save-text">Нажмите СОХРАНИТЬ<br>и подтвердите загрузку<br>вашей фотографии</div>
+      <div class="save-text">Нажмите «Сохранить»<br>и подтвердите загрузку<br>вашей фотографии</div>
       <button id="downloadBtn" class="download-button">
         <img src="Images/button_save.png" alt="Save">
       </button>
@@ -116,8 +116,14 @@
       <div class="vr-illustration">
         <img src="Images/vr_illustration.png" alt="VR">
       </div>
-      <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
-      <div class="save-text">Нажмите КУПИТЬ БИЛЕТ<br>и перейдите на сайт<br>Союзмультпарка</div>
+      <div class="park-photo-container">
+        <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
+        <div class="to-park-overlay">
+          <img src="Images/to_park.png" alt="To Park">
+        </div>
+      </div>
+      <div class="park-welcome-text">Мы ждем вас<br> в парке!</div>
+      <div class="save-text">Ваше Фото сохранится <br>в папке «Загрузки»<br>(не в галерее)</div>
       <a href="https://souzmultpark.ru/" target="_blank">
         <button id="goParkBtn" class="download-button">
           <img src="Images/buy_ticket.png" alt="Buy Ticket">
@@ -134,15 +140,12 @@
     uiLoading: #loading-overlay;
     uiScanning: #scanning-overlay;
     uiError: no;
-    smooth: true;              
     missTolerance: 10;          
     filterMinCF: 0.0001;       
     filterBeta: 0.0001;         
     warmupTolerance: 20
     deviceConstraints: {
       video: {
-        width:  { ideal: 1280 },
-        height: { ideal: 720  },
         facingMode: 'environment'
       }
     }"
@@ -155,7 +158,7 @@
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
-      <img id="sheet" src="Images/sprite_sheet.png">
+      <img id="sheet" src="Images/sprite_sheet.jpg">
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
