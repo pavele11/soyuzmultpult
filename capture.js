@@ -51,6 +51,25 @@ document.getElementById('photoBtn').addEventListener('click', () => {
   const sceneEl = document.querySelector('a-scene');
   if (!video || !video.videoWidth) { alert('Камера не готова'); return; }
 
+  // Показываем попап сразу
+  overlay.classList.remove('hidden');
+  
+  // Показываем спиннер вместо изображения
+  const previewImg = document.getElementById('previewImg');
+  previewImg.style.display = 'none';
+  
+  // Добавляем или обновляем спиннер загрузки
+  let loadingSpinner = document.getElementById('photo-loading-spinner');
+  if (!loadingSpinner) {
+    loadingSpinner = document.createElement('div');
+    loadingSpinner.id = 'photo-loading-spinner';
+    loadingSpinner.className = 'photo-loading-spinner';
+    loadingSpinner.innerHTML = '<div class="spinner"></div>';
+    previewImg.parentNode.insertBefore(loadingSpinner, previewImg.nextSibling);
+  } else {
+    loadingSpinner.style.display = 'block';
+  }
+
   video.pause();
 
   /* 1. холст = размер экрана */
@@ -91,7 +110,14 @@ document.getElementById('photoBtn').addEventListener('click', () => {
     /* 7. показываем превью */
     currentBlobUrl = blobUrl;
     preview.src = blobUrl;
-    overlay.classList.remove('hidden');
+    
+    // Скрываем спиннер загрузки и показываем изображение
+    const loadingSpinner = document.getElementById('photo-loading-spinner');
+    if (loadingSpinner) {
+      loadingSpinner.style.display = 'none';
+    }
+    previewImg.style.display = 'block';
+    
     video.play();
 
     /* 8. кнопка «Скачать» – Яндекс-friendly */

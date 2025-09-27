@@ -105,6 +105,20 @@
     margin-bottom: 15px;
   }
   
+  /* Спиннер загрузки фото */
+  .photo-loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0;
+    min-height: 120px;
+  }
+  
+  .photo-loading-spinner .spinner {
+    width: 100px;
+    height: 100px;
+  }
+  
   /* Контейнер для фотографии парка и наложения */
   .park-photo-container {
     position: relative;
