@@ -18,6 +18,21 @@
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="aframe-spritesheet-animation.js"></script>
 
+  <script>
+    (function(){
+      const limit = 10;          // секунд
+      const target = 'error.html';
+      const tick = setTimeout(() => {
+        // если до сих пор висит оверлей загрузки – значит «завис»
+        if (!document.getElementById('loading-overlay').classList.contains('hidden')) {
+          window.location.replace(target);
+        }
+      }, limit * 1000);
+  
+      // если загрузка всё-таки закончилась – отменяем таймер
+      window.addEventListener('load', () => clearTimeout(tick));
+    })();
+  </script>
 
   <script>
   AFRAME.registerComponent('play-on-visible', {
