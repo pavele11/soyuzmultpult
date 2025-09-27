@@ -105,13 +105,44 @@
     margin-bottom: 15px;
   }
   
+  /* Контейнер для фотографии парка и наложения */
+  .park-photo-container {
+    position: relative;
+    width: 85%;
+    max-height: 400px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
   #afterImg {
-    width: 90%;
+    width: 100%;
     height: auto;
-    max-height: 360px;
+    max-height: 400px;
     object-fit: contain;
     border-radius: 8px;
-    margin-bottom: 15px;
+    display: block;
+  }
+  
+  /* Блок "ВХОД В ПАРК" поверх фотографии */
+  .to-park-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .to-park-overlay img {
+    width: 120%;
+    max-width: 120%;
+    height: auto;
+    display: block;
+    margin-bottom: -30px;
   }
   
   .save-text {
@@ -268,9 +299,20 @@
     padding: 35px 15px 15px 15px;
   }
   
+  .park-photo-container {
+    width: 90%;
+    max-height: 300px;
+  }
+  
   #afterImg {
     max-height: 300px;
-    width: 95%;
+    width: 100%;
+  }
+  
+  .to-park-overlay img {
+    width: 120%;
+    max-width: 120%;
+    margin-bottom: -30px;
   }
   
   .vr-illustration {
@@ -336,9 +378,20 @@
     padding: 38px 18px 18px 18px;
   }
   
+  .park-photo-container {
+    width: 88%;
+    max-height: 360px;
+  }
+  
   #afterImg {
-    max-height: 330px;
-    width: 90%;
+    max-height: 360px;
+    width: 100%;
+  }
+  
+  .to-park-overlay img {
+    width: 120%;
+    max-width: 120%;
+    margin-bottom: -30px;
   }
   
   .vr-illustration {
@@ -405,9 +458,20 @@
     padding: 38px 18px 18px 18px;
   }
   
+  .park-photo-container {
+    width: 88%;
+    max-height: 360px;
+  }
+  
   #afterImg {
-    max-height: 330px;
-    width: 90%;
+    max-height: 360px;
+    width: 100%;
+  }
+  
+  .to-park-overlay img {
+    width: 120%;
+    max-width: 120%;
+    margin-bottom: -30px;
   }
   
   .vr-illustration {

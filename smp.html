@@ -116,7 +116,12 @@
       <div class="vr-illustration">
         <img src="Images/vr_illustration.png" alt="VR">
       </div>
-      <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
+      <div class="park-photo-container">
+        <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
+        <div class="to-park-overlay">
+          <img src="Images/to_park.png" alt="To Park">
+        </div>
+      </div>
       <div class="save-text">Мы ждем вас в парке!<br>Ваше Фото сохранится в папке загрузки<br>(не в галерее)</div>
       <a href="https://souzmultpark.ru/" target="_blank">
         <button id="goParkBtn" class="download-button">
@@ -151,7 +156,7 @@
   device-orientation-permission-ui="enabled: false">
 
     <!-- Ассеты -->
-    <a-assets timeout="10000">
+    <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/gena-cheba-shapo/volk.glb"></a-asset-item>
       <img id="sheet" src="Images/sprite_sheet.jpg">
