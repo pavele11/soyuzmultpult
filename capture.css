@@ -145,6 +145,17 @@
     margin-bottom: -30px;
   }
   
+  .park-welcome-text {
+    font-family: 'SoyuzMult', Arial, sans-serif;
+    font-size: 43px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+    max-width: 98%;
+    line-height: 1.15;
+  }
+  
   .save-text {
     font-family: 'SoyuzMult', Arial, sans-serif;
     font-size: 32px;
@@ -259,6 +270,13 @@
     width: 95%;
   }
   
+  .park-welcome-text {
+    font-size: 32px;
+    max-width: 95%;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  
   .save-text {
     font-size: 24px;
     max-width: 95%;
@@ -336,6 +354,13 @@
   #previewImg {
     max-height: 330px;
     width: 90%;
+  }
+  
+  .park-welcome-text {
+    font-size: 40px;
+    max-width: 98%;
+    line-height: 1.15;
+    margin-bottom: 12px;
   }
   
   .save-text {
@@ -416,6 +441,13 @@
   #previewImg {
     max-height: 330px;
     width: 90%;
+  }
+  
+  .park-welcome-text {
+    font-size: 40px;
+    max-width: 98%;
+    line-height: 1.15;
+    margin-bottom: 12px;
   }
   
   .save-text {
