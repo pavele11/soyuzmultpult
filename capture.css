@@ -247,6 +247,12 @@
     height: auto;
     display: block;
   }
+  
+  /* Неактивная кнопка "Сохранить" */
+  .download-button.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 
 
   .hidden{ display:none !important; }

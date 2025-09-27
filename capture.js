@@ -70,6 +70,13 @@ document.getElementById('photoBtn').addEventListener('click', () => {
     loadingSpinner.style.display = 'block';
   }
 
+  // Делаем кнопку "Сохранить" неактивной и меняем изображение на loading
+  const downloadBtn = document.getElementById('downloadBtn');
+  const downloadBtnImg = downloadBtn.querySelector('img');
+  downloadBtn.disabled = true;
+  downloadBtn.classList.add('disabled');
+  downloadBtnImg.src = 'Images/button_save_loading.png';
+
   video.pause();
 
   /* 1. холст = размер экрана */
@@ -117,6 +124,13 @@ document.getElementById('photoBtn').addEventListener('click', () => {
       loadingSpinner.style.display = 'none';
     }
     previewImg.style.display = 'block';
+    
+    // Активируем кнопку "Сохранить" и возвращаем обычное изображение
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadBtnImg = downloadBtn.querySelector('img');
+    downloadBtn.disabled = false;
+    downloadBtn.classList.remove('disabled');
+    downloadBtnImg.src = 'Images/button_save.png';
     
     video.play();
 
