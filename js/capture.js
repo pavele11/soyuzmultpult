@@ -5,7 +5,14 @@
 
 // фоновая картинка
 const bgImg = new Image();
-bgImg.src = '../Images/ui_background.png';
+// Создаем абсолютный путь для GitHub Pages совместимости
+const getImagePath = (imageName) => {
+  const basePath = window.location.pathname.includes('/soyuzmultpult/') 
+    ? window.location.pathname.split('/soyuzmultpult/')[0] + '/soyuzmultpult/' 
+    : './';
+  return basePath + 'Images/' + imageName;
+};
+bgImg.src = getImagePath('ui_background.png');
 
 /* ждём появления screenshot-компонента MindAR 1.2.5 */
 const awaitScreenshot = setInterval(() => {
@@ -75,7 +82,7 @@ document.getElementById('photoBtn').addEventListener('click', () => {
   const downloadBtnImg = downloadBtn.querySelector('img');
   downloadBtn.disabled = true;
   downloadBtn.classList.add('disabled');
-  downloadBtnImg.src = '../Images/button_save_loading.png';
+  downloadBtnImg.src = getImagePath('button_save_loading.png');
 
   video.pause();
 
@@ -130,7 +137,7 @@ document.getElementById('photoBtn').addEventListener('click', () => {
     const downloadBtnImg = downloadBtn.querySelector('img');
     downloadBtn.disabled = false;
     downloadBtn.classList.remove('disabled');
-    downloadBtnImg.src = '../Images/button_save.png';
+    downloadBtnImg.src = getImagePath('button_save.png');
     
     video.play();
 
