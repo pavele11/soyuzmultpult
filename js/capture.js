@@ -10,7 +10,7 @@ const getImagePath = (imageName) => {
   const basePath = window.location.pathname.includes('/soyuzmultpult/') 
     ? window.location.pathname.split('/soyuzmultpult/')[0] + '/soyuzmultpult/' 
     : './';
-  return basePath + 'Images/' + imageName;
+  return basePath + 'img/' + imageName;
 };
 bgImg.src = getImagePath('ui_background.png');
 
