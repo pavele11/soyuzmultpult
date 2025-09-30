@@ -63,7 +63,7 @@
   
   /* карточки */
   #previewBox{
-    background-image: url('../image/save_photo_bg.png'); 
+    background-image: url('../Images/save_photo_bg.png'); 
     background-repeat: no-repeat; 
     background-position: center; 
     background-size: contain;
@@ -80,7 +80,7 @@
   }
   
   #afterBox{
-    background-image: url('../image/save_photo_bg.png'); 
+    background-image: url('../Images/save_photo_bg.png'); 
     background-repeat: no-repeat; 
     background-position: center; 
     background-size: contain;
