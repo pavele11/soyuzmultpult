@@ -26,6 +26,7 @@
   <!-- ============================================== -->
   <!-- НАШИ СКРИПТЫ -->
   <!-- ============================================== -->
+  <script src="js/performance-optimizer.js"></script>
   <script src="js/loading-timeout.js"></script>
   <script src="js/aframe-spritesheet-animation.js"></script>
   <script src="js/ar-animations.js"></script>
@@ -124,10 +125,12 @@
     missTolerance: 10;          
     filterMinCF: 0.0001;       
     filterBeta: 0.0001;         
-    warmupTolerance: 20
+    warmupTolerance: 30;
     deviceConstraints: {
       video: {
-        facingMode: 'environment'
+        facingMode: 'environment',
+        width: { ideal: 1280, max: 1920 },
+        height: { ideal: 720, max: 1080 }
       }
     }"
   color-space="sRGB"
@@ -137,8 +140,8 @@
 
     <!-- 3D модели и текстуры -->
     <a-assets>
-      <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo-model-animated.glb"></a-asset-item>
-      <a-asset-item id="volk-model" src="models/volk-model-animated.glb"></a-asset-item>
+      <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo-model-animated.glb" preload="false"></a-asset-item>
+      <a-asset-item id="volk-model" src="models/volk-model-animated.glb" preload="false"></a-asset-item>
       <img id="sheet" src="img/sprite_sheet.jpg">
     </a-assets>
 
@@ -188,6 +191,30 @@
   <!-- ============================================== -->
   <script src="js/capture.js"></script>
   <script src="js/ui-controls.js"></script>
+  
+  <!-- Скрипт ленивой загрузки 3D моделей -->
+  <script>
+    // Ленивая загрузка 3D моделей после инициализации AR
+    document.addEventListener('DOMContentLoaded', function() {
+      const scene = document.querySelector('a-scene');
+      
+      // Загружаем модели только после готовности сцены
+      scene.addEventListener('loaded', function() {
+        setTimeout(() => {
+          // Предзагружаем модели в фоне
+          const model1 = document.getElementById('gena-cheba-shapo-model');
+          const model2 = document.getElementById('volk-model');
+          
+          if (model1) {
+            model1.setAttribute('preload', 'true');
+          }
+          if (model2) {
+            model2.setAttribute('preload', 'true');
+          }
+        }, 1000); // Задержка для стабилизации AR
+      });
+    });
+  </script>
   
 </body>
 </html>
