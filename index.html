@@ -1,41 +1,54 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Союзмультфильм AR</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <!-- ============================================== -->
+  <!-- МЕТАДАННЫЕ -->
+  <!-- ============================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Союзмультфильм AR - Главная страница</title>
 
-  <!-- предзагрузка фонового изображения -->
+  <!-- ============================================== -->
+  <!-- СТИЛИ И РЕСУРСЫ -->
+  <!-- ============================================== -->
+  <link rel="stylesheet" href="css/styles.css">
   <link rel="preload" href="Images/ui_background.png" as="image">
-
 </head>
 <body>
+  <!-- ============================================== -->
+  <!-- ГЛАВНАЯ СТРАНИЦА -->
+  <!-- ============================================== -->
+  
+  <!-- AR Zone - индикатор AR зоны -->
+  <div class="ar-zone">
+    <img src="Images/ar_zone.png" alt="AR Zone">
+  </div>
 
-    <!-- AR Zone -->
-    <div class="ar-zone">
-        <img src="Images/ar_zone.png" alt="AR Zone">
-    </div>
+  <!-- Логотип Союзмультфильма -->
+  <div class="logo">
+    <img src="Images/smp_logo_photo.png" alt="SMP Logo">
+  </div>
 
-    <!-- Логотип -->
-    <div class="logo">
-        <img src="Images/smp_logo_photo.png" alt="SMP Logo">
-    </div>
+  <!-- Описательный текст -->
+  <div class="text">
+    Впереди вас ждет эффектное фото <br />с любыми персонажами<br />и дополненной реальностью
+  </div>
 
-    <!-- Текст -->
-    <div class="text">
-        Впереди вас ждет эффектное фото <br />с любыми персонажами<br />и дополненной реальностью
-    </div>
+  <!-- Кнопка запуска AR -->
+  <div class="button-container">
+    <img src="Images/button_start_text.png" alt="Поехали!" class="button-image" onclick="startAR()">
+  </div>
 
-    <!-- Кнопка -->
-    <div class="button-container">
-        <img src="Images/button_start_text.png" alt="Поехали!" class="button-image" onclick="startAR()">
-    </div>
-
-    <script>
-        function startAR() {
-            window.location.href = 'smp.html';
-        }
-    </script>
+  <!-- ============================================== -->
+  <!-- СКРИПТЫ -->
+  <!-- ============================================== -->
+  <script>
+    /**
+     * Переход на страницу AR приложения
+     */
+    function startAR() {
+      window.location.href = 'smp.html';
+    }
+  </script>
 </body>
 </html>
