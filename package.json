@@ -2,7 +2,7 @@
   "name": "soyuzmultpult",
   "version": "1.0.0",
   "description": "",
-  "main": "capture.js",
+  "main": "js/capture.js",
   "scripts": {
     "start": "node index.js"
   },
