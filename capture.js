@@ -5,7 +5,7 @@
 
 // фоновая картинка
 const bgImg = new Image();
-bgImg.src = '../Images/ui_background.png';
+bgImg.src = 'Images/ui_background.png';
 
 /* ждём появления screenshot-компонента MindAR 1.2.5 */
 const awaitScreenshot = setInterval(() => {
@@ -75,7 +75,7 @@ document.getElementById('photoBtn').addEventListener('click', () => {
   const downloadBtnImg = downloadBtn.querySelector('img');
   downloadBtn.disabled = true;
   downloadBtn.classList.add('disabled');
-  downloadBtnImg.src = '../Images/button_save_loading.png';
+  downloadBtnImg.src = 'Images/button_save_loading.png';
 
   video.pause();
 
@@ -130,7 +130,7 @@ document.getElementById('photoBtn').addEventListener('click', () => {
     const downloadBtnImg = downloadBtn.querySelector('img');
     downloadBtn.disabled = false;
     downloadBtn.classList.remove('disabled');
-    downloadBtnImg.src = '../Images/button_save.png';
+    downloadBtnImg.src = 'Images/button_save.png';
     
     video.play();
 

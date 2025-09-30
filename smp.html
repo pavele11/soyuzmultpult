@@ -1,48 +1,100 @@
 <!doctype html>
-<html lang="ru">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Союзмультфильм AR - Фото с персонажами</title>
+  <title>AR-скриншот</title>
 
-  <!-- CSS стили -->
-  <link rel="stylesheet" href="css/spinner.css">
-  <link rel="stylesheet" href="css/scanning.css">
-  <link rel="stylesheet" href="css/capture.css">
+  <!-- ваши старые стили -->
+  <link rel="stylesheet" href="spinner.css">
+  <link rel="stylesheet" href="scanning.css">
 
-  <!-- Таймер загрузки (должен быть загружен рано) -->
-  <script src="js/loading-timeout.js"></script>
+  <!-- новые стили поп-апов -->
+  <link rel="stylesheet" href="capture.css">
+
+  <!-- библиотеки MindAR + A-Frame -->
   
-  <!-- Внешние библиотеки -->
+  <script>
+    (function(){
+      const limit = 15;          // секунд
+      const target = 'error.html';
+      const tick = setTimeout(() => {
+        // если до сих пор висит оверлей загрузки – значит «завис»
+        if (!document.getElementById('loading-overlay').classList.contains('hidden')) {
+          window.location.replace(target);
+        }
+      }, limit * 1000);
+  
+      // если загрузка всё-таки закончилась – отменяем таймер
+      window.addEventListener('load', () => clearTimeout(tick));
+    })();
+  </script>
+  
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-  
-  <!-- Кастомные A-Frame компоненты -->
-  <script src="js/aframe-spritesheet-animation.js"></script>
-  <script src="js/ar-animations.js"></script>
+  <script src="aframe-spritesheet-animation.js"></script>
+
+ 
+
+  <script>
+  AFRAME.registerComponent('play-on-visible', {
+  init() {
+    const model   = this.el.firstElementChild;               // gltf
+    const gifPlane = this.el.querySelector('#gif-element');  // плоскость
+
+    /* появление маркера */
+    this.el.addEventListener('targetFound', () => {
+      /* GLB-анимация */
+      model.removeAttribute('animation-mixer');
+      model.setAttribute('animation-mixer', {
+        loop: 'once',
+        clampWhenFinished: true,
+        timeScale: 1
+      });
+
+      /* scale-анимация GIF 0→1 */
+      gifPlane.removeAttribute('animation__scale'); // сброс
+      gifPlane.setAttribute('animation__scale', {
+        property: 'scale',
+        from: '0 0 0',
+        to: '1 1 1',
+        dur: 1000,
+        easing: 'easeOutBack'
+      });
+    });
+
+    /* исчезновение маркера (по желанию) */
+    this.el.addEventListener('targetLost', () => {
+      gifPlane.removeAttribute('animation__scale');
+      gifPlane.setAttribute('scale', '0 0 0'); // прячем сразу
+    });
+  }
+});
+  </script>
+
 </head>
 
 <body>
-  <!-- Экран сканирования маркеров -->
+  <!-- оверлей сканирования -->
   <div id="scanning-overlay" class="hidden">
     <div class="scanning-container">
-      <img class="stairs-image" src="images/stairs.png" alt="Лестница">
+      <img class="stairs-image" src="Images/stairs.png" alt="Stairs">
       <div class="image-carousel">
-        <img class="main-image active" src="images/gena_cheba_shapo.png" alt="Гена Чебурашка Шапокляк">
-        <img class="main-image" src="images/volk.png" alt="Волк">
+        <img class="main-image active" src="Images/gena_cheba_shapo.png" alt="Gena Cheba Shapo">
+        <img class="main-image" src="Images/volk.png" alt="Volk">
       </div>
-      <img class="camera-icon" src="images/camera_icon.png" alt="Иконка камеры">
+      <img class="camera-icon" src="Images/camera_icon.png" alt="Camera">
       <div class="scanning-text">Наведите камеру<br>на скульптуру</div>
     </div>
   </div>
 
-  <!-- Popup запроса доступа к камере -->
+  <!-- Access Popup -->
   <div class="access-popup">
-    <img src="images/access_popup.png" alt="Запрос доступа к камере">
+    <img src="Images/access_popup.png" alt="Access Permission">
   </div>
 
-  <!-- Экран загрузки -->
+  <!-- оверлей загрузки -->
   <div id="loading-overlay">
     <div class="loading-content">
       <div class="spinner"></div>
@@ -50,129 +102,237 @@
     </div>
   </div>
 
-  <!-- Блок пульта с кнопкой съемки -->
+  <!-- блок пульта с кнопкой -->
   <div id="pultContainer">
-    <img src="images/Pult.gif" alt="Пульт управления" id="pultImage">
+    <img src="Images/Pult.gif" alt="Pult" id="pultImage">
     <button id="photoBtn" disabled></button>
   </div>
 
-  <!-- Popup предварительного просмотра фото -->
+  <!-- поп-ап превью -->
   <div id="previewOverlay" class="hidden">
     <div id="previewBox">
       <button id="closeBtn" class="close-button">
-        <img src="images/close_button.png" alt="Закрыть">
+        <img src="Images/close_button.png" alt="Close">
       </button>
       <div class="camera-illustration">
-        <img src="images/camera_illustration.png" alt="Иллюстрация камеры">
+        <img src="Images/camera_illustration.png" alt="Camera">
       </div>
-      <img id="previewImg" alt="Предварительный просмотр">
+      <img id="previewImg" alt="preview">
       <div class="save-text">Нажмите «Сохранить»<br>и подтвердите загрузку<br>вашей фотографии</div>
       <button id="downloadBtn" class="download-button">
-        <img src="images/button_save.png" alt="Сохранить">
+        <img src="Images/button_save.png" alt="Save">
       </button>
     </div>
   </div>
 
-  <!-- Popup после сохранения фото -->
+  <!-- поп-ап после скачивания -->
   <div id="afterOverlay" class="hidden">
     <div id="afterBox">
       <button id="laterBtn" class="close-button">
-        <img src="images/close_button.png" alt="Закрыть">
+        <img src="Images/close_button.png" alt="Close">
       </button>
       <div class="vr-illustration">
-        <img src="images/vr_illustration.png" alt="VR иллюстрация">
+        <img src="Images/vr_illustration.png" alt="VR">
       </div>
       <div class="park-photo-container">
-        <img id="afterImg" src="images/park_photo_01.png" alt="Фото парка">
+        <img id="afterImg" src="Images/park_photo_01.png" alt="Park Photo">
         <div class="to-park-overlay">
-          <img src="images/to_park.png" alt="Перейти в парк">
+          <img src="Images/to_park.png" alt="To Park">
         </div>
       </div>
       <div class="park-welcome-text">Мы ждем вас<br> в парке!</div>
       <div class="save-text">Ваше Фото сохранится <br>в папке «Загрузки»<br>(не в галерее)</div>
       <a href="https://souzmultpark.ru/" target="_blank">
         <button id="goParkBtn" class="download-button">
-          <img src="images/buy_ticket.png" alt="Купить билет">
+          <img src="Images/buy_ticket.png" alt="Buy Ticket">
         </button>
       </a>
     </div>
   </div>
 
-  <!-- AR сцена с 3D моделями -->
+  <!-- AR-сцена (ваша) -->
   <a-scene
-    mindar-image="
-      imageTargetSrc: sculptures.mind;
-      maxTrack: 1;
-      uiLoading: #loading-overlay;
-      uiScanning: #scanning-overlay;
-      uiError: no;
-      missTolerance: 10;          
-      filterMinCF: 0.0001;       
-      filterBeta: 0.0001;         
-      warmupTolerance: 20
-      deviceConstraints: {
-        video: {
-          facingMode: 'environment'
-        }
-      }"
-    color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
+  mindar-image="
+    imageTargetSrc: gena-cheba-shapo-volk-scultures_3.mind;
+    maxTrack: 1;
+    uiLoading: #loading-overlay;
+    uiScanning: #scanning-overlay;
+    uiError: no;
+    missTolerance: 10;          
+    filterMinCF: 0.0001;       
+    filterBeta: 0.0001;         
+    warmupTolerance: 20
+    deviceConstraints: {
+      video: {
+        facingMode: 'environment'
+      }
+    }"
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
 
-    <!-- Загрузка 3D моделей и текстур -->
+    <!-- Ассеты -->
     <a-assets>
       <a-asset-item id="gena-cheba-shapo-model" src="models/gena-cheba-shapo-model-animated.glb"></a-asset-item>
       <a-asset-item id="volk-model" src="models/volk-model-animated.glb"></a-asset-item>
-      <img id="sheet" src="images/sprite_sheet.jpg">
+      <img id="sheet" src="Images/sprite_sheet.jpg">
     </a-assets>
 
-    <!-- Камера AR -->
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-    <!-- Маркер 1: Гена, Чебурашка, Шапокляк -->
     <a-entity mindar-image-target="targetIndex: 0" play-on-visible>
       <a-entity
-        id="animated-model"
-        gltf-model="#gena-cheba-shapo-model"
-        position="0 0 0"
-        scale="0.5 0.5 0.5">
-      </a-entity>
+      id="animated-model"
+      gltf-model="#gena-cheba-shapo-model"
+      position="0 0 0"
+      scale="0.5 0.5 0.5">
+    </a-entity>
       <a-plane
-        id="gif-element"
-        geometry="primitive: plane; height:0.35; width:0.51"
-        material="shader: flat; src: #sheet; transparent: false;"
-        spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
-        position="-0.03 0.85 0.15"
-        visible="true"
-        scale="0 0 0">
-      </a-plane>
+      id="gif-element"
+      geometry="primitive: plane; height:0.35; width:0.51"
+      material="shader: flat; src: #sheet; transparent: false;"
+      spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
+      position="-0.03 0.85 0.15"
+      visible="true"
+      scale="0 0 0"></a-plane>
     </a-entity>
 
-    <!-- Маркер 2: Волк -->
     <a-entity mindar-image-target="targetIndex: 1" play-on-visible>
       <a-entity
-        id="animated-model"
-        gltf-model="#volk-model"
-        position="0 0 0"
-        scale="0.5 0.5 0.5">
-      </a-entity>
-      <a-plane
-        id="gif-element"
-        geometry="primitive: plane; height:0.35; width:0.51"
-        material="shader: flat; src: #sheet; transparent: false;"
-        spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
-        position="-0.03 0.73 0.15"
-        visible="true"
-        scale="0 0 0">
-      </a-plane>
+      id="animated-model"
+      gltf-model="#volk-model"
+      position="0 0 0"
+      scale="0.5 0.5 0.5">
+    </a-entity>
+    <a-plane
+    id="gif-element"
+    geometry="primitive: plane; height:0.35; width:0.51"
+    material="shader: flat; src: #sheet; transparent: false;"
+    spritesheet-animation="rows: 16; columns: 11; frameDuration: 0.1; loop: true;"
+    position="-0.03 0.73 0.15"
+    visible="true"
+    scale="0 0 0"></a-plane>
     </a-entity>
 
-  </a-scene>
+ 
 
-  <!-- JavaScript модули -->
-  <script src="js/capture.js"></script>
-  <script src="js/ui-controls.js"></script>
+  <!-- логика скриншотов -->
+  <script src="capture.js"></script>
+  
+  <!-- Анимация access popup -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const accessPopup = document.querySelector('.access-popup');
+      const loadingOverlay = document.querySelector('#loading-overlay');
+      const scanningOverlay = document.querySelector('#scanning-overlay');
+      
+      // Показываем popup через 1 секунду после загрузки
+      setTimeout(() => {
+        accessPopup.classList.add('show');
+      }, 1000);
+      
+      // Функция для скрытия popup
+      function hidePopup() {
+        accessPopup.style.display = 'none';
+      }
+      
+      // Функция для показа popup
+      function showPopup() {
+        accessPopup.style.display = 'block';
+      }
+      
+      // Скрываем popup при появлении экрана сканирования
+      const scanningObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (!scanningOverlay.classList.contains('hidden')) {
+              hidePopup();
+            }
+          }
+        });
+      });
+      
+      // Скрываем popup при скрытии экрана загрузки (когда переходим к основному экрану)
+      const loadingObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (loadingOverlay.classList.contains('hidden')) {
+              hidePopup();
+            }
+          }
+        });
+      });
+      
+      scanningObserver.observe(scanningOverlay, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      loadingObserver.observe(loadingOverlay, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      // Карусель картинок на экране сканирования
+      let imageInterval = null;
+      
+      function startCarousel() {
+        const images = document.querySelectorAll('.main-image');
+        if (images.length === 0) return;
+        
+        let currentIndex = 0;
+        
+        function switchImage() {
+          console.log('Switching image, current index:', currentIndex);
+          // Убираем активный класс с текущей картинки
+          images[currentIndex].classList.remove('active');
+          
+          // Переходим к следующей картинке
+          currentIndex = (currentIndex + 1) % images.length;
+          
+          // Добавляем активный класс к новой картинке
+          images[currentIndex].classList.add('active');
+          console.log('New active image index:', currentIndex);
+        }
+        
+        // Очищаем предыдущий интервал если есть
+        if (imageInterval) {
+          clearInterval(imageInterval);
+        }
+        
+        // Запускаем смену картинок каждые 3 секунды
+        imageInterval = setInterval(switchImage, 3000);
+        console.log('Carousel started');
+      }
+      
+      // Запускаем карусель сразу
+      setTimeout(startCarousel, 100);
+      
+      // Останавливаем карусель когда экран сканирования скрывается
+      const stopCarouselObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (scanningOverlay.classList.contains('hidden')) {
+              if (imageInterval) {
+                clearInterval(imageInterval);
+                imageInterval = null;
+                console.log('Carousel stopped');
+              }
+            } else {
+              // Запускаем карусель когда экран сканирования появляется
+              setTimeout(startCarousel, 100);
+            }
+          }
+        });
+      });
+      
+      stopCarouselObserver.observe(scanningOverlay, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    });
+  </script>
   
 </body>
 </html>
