@@ -38,7 +38,22 @@ soyuzmultpult/
 │   ├── loading-timeout.js  # Таймер загрузки
 │   ├── marker-tracker.js   # Отслеживание маркеров
 │   └── ui-controls.js      # Управление UI элементами
-├── image/                  # Изображения и иконки
+├── img/                    # Изображения и иконки
+│   ├── access_popup.png
+│   ├── ar_zone.png
+│   ├── button_*.png        # Кнопки интерфейса
+│   ├── camera_*.png        # Иконки камеры
+│   ├── close_button.png
+│   ├── gena_cheba_shapo.png
+│   ├── park_photo_01.png
+│   ├── Pult.gif           # Анимированный пульт
+│   ├── smp_logo_photo.png
+│   ├── spinner.png
+│   ├── sprite_sheet.jpg   # Спрайт-лист анимации
+│   ├── stairs.png
+│   ├── ui_background.png
+│   ├── volk.png
+│   └── vr_illustration.png
 ├── models/                 # 3D модели персонажей
 │   ├── gena-cheba-shapo-model-animated.glb
 │   └── volk-model-animated.glb
@@ -46,7 +61,7 @@ soyuzmultpult/
 ├── index.js               # Node.js сервер
 ├── smp.html               # AR приложение
 ├── error.html             # Страница ошибки
-├── sculptures.mind        # MindAR маркеры
+├── gena-cheba-shapo-volk-scultures_3.mind  # MindAR маркеры
 ├── soyuzmult.otf          # Шрифт
 └── package.json           # Зависимости Node.js
 ```
@@ -85,6 +100,13 @@ http://localhost:3000
 
 Для продакшн-развертывания просто загрузите все файлы на веб-сервер с поддержкой HTTPS (обязательно для доступа к камере).
 
+**Поддерживаемые платформы:**
+- GitHub Pages
+- Netlify
+- Vercel
+- Render
+- Любой статический хостинг с HTTPS
+
 ## Использование
 
 1. Откройте приложение в мобильном браузере
@@ -115,16 +137,34 @@ http://localhost:3000
 3. Создайте новый маркер в `sculptures.mind`
 4. Обновите `smp.html` с новым маркером
 
+### Архитектура JavaScript
+
+Проект использует модульную архитектуру с разделением ответственности:
+
+#### Основные модули:
+- **`capture.js`** - Логика создания скриншотов AR сцены, обработка кнопок загрузки
+- **`ui-controls.js`** - Управление UI элементами (access popup, карусель изображений)
+- **`ar-animations.js`** - A-Frame компонент для управления анимациями 3D моделей
+- **`loading-timeout.js`** - Автоматический переход на страницу ошибки при зависании
+- **`aframe-spritesheet-animation.js`** - Компонент для проигрывания спрайт-анимаций
+- **`marker-tracker.js`** - Отслеживание AR маркеров
+
+#### Структура HTML:
+- **`index.html`** - Главная страница с навигацией
+- **`smp.html`** - Основное AR приложение с модульной структурой
+- **`error.html`** - Страница обработки ошибок
+
 ### Кастомизация стилей
 
 Все стили находятся в папке `css/`. Основные файлы:
-- `styles.css` - базовые стили
-- `capture.css` - стили popup'ов
+- `styles.css` - базовые стили главной страницы
+- `capture.css` - стили popup'ов фотографий
 - `scanning.css` - стили экрана сканирования
+- `spinner.css` - стили загрузки и анимаций
 
 ## Лицензия
 
-Проект разработан для Союзмультфильм парка.
+Проект разработан для Союзмультпарка.
 
 ## Авторы
 
