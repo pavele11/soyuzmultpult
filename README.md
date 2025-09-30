@@ -35,7 +35,6 @@ soyuzmultpult/
 │   ├── aframe-spritesheet-animation.js  # A-Frame компонент для проигрывания анимаций спрайтшита
 │   ├── ar-animations.js    # AR анимации и компоненты
 │   ├── capture.js          # Логика создания скриншотов
-│   ├── index.js            # Node.js сервер
 │   ├── loading-timeout.js  # Таймер загрузки
 │   ├── marker-tracker.js   # Отслеживание маркеров
 │   └── ui-controls.js      # Управление UI элементами
@@ -44,6 +43,7 @@ soyuzmultpult/
 │   ├── gena-cheba-shapo-model-animated.glb
 │   └── volk-model-animated.glb
 ├── index.html              # Главная страница
+├── index.js               # Node.js сервер
 ├── smp.html               # AR приложение
 ├── error.html             # Страница ошибки
 ├── sculptures.mind        # MindAR маркеры
