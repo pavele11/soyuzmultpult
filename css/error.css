@@ -1,0 +1,133 @@
+/**
+ * Error Page Styles
+ * Стили для страницы ошибки
+ */
+
+/* ============================================== */
+/* ОСНОВНЫЕ СТИЛИ */
+/* ============================================== */
+
+/* Фоновое изображение */
+.error-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.error-background .background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Контейнер контента */
+.error-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000;
+  max-width: 1000px;
+  padding: 40px;
+  width: 90vw;
+}
+
+/* Заголовок ошибки */
+.error-title {
+  font-family: 'SoyuzMult', Arial, sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 60px;
+  line-height: 1.2;
+}
+
+/* Текст сообщения об ошибке */
+.error-message {
+  color: white;
+  font-family: 'SoyuzMult', Arial, sans-serif;
+  text-align: center;
+  font-size: 32px;
+  line-height: 1.3;
+  margin-bottom: 80px;
+  max-width: 500px;
+  padding: 0 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Кнопка возврата */
+.error-button {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.error-button:hover {
+  transform: scale(1.05);
+}
+
+.error-button:active {
+  transform: scale(0.95);
+}
+
+.error-button img {
+  max-width: 400px;
+  height: auto;
+  display: block;
+}
+
+/* ============================================== */
+/* АДАПТИВНЫЕ СТИЛИ */
+/* ============================================== */
+
+/* Мобильные устройства */
+@media (max-width: 480px) {
+  .error-content {
+    max-width: 95vw;
+    padding: 20px;
+  }
+
+  .error-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .error-message {
+    font-size: 26px;
+    line-height: 1.25;
+    margin-top: -15px;
+    margin-bottom: 40px;
+    max-width: 400px;
+  }
+
+  .error-button img {
+    max-width: 300px;
+  }
+}
+
+/* Планшеты */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .error-content {
+    max-width: 95vw;
+    padding: 30px;
+  }
+
+  .error-title {
+    font-size: 42px;
+    margin-bottom: 50px;
+  }
+
+  .error-message {
+    font-size: 34px;
+    max-width: 550px;
+    margin-bottom: 60px;
+  }
+
+  .error-button img {
+    max-width: 350px;
+  }
+}
