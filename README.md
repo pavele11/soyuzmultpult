@@ -38,7 +38,7 @@ soyuzmultpult/
 │   ├── loading-timeout.js  # Таймер загрузки
 │   ├── marker-tracker.js   # Отслеживание маркеров
 │   └── ui-controls.js      # Управление UI элементами
-├── Images/                 # Изображения и иконки
+├── image/                  # Изображения и иконки
 ├── models/                 # 3D модели персонажей
 │   ├── gena-cheba-shapo-model-animated.glb
 │   └── volk-model-animated.glb
