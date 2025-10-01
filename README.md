@@ -18,7 +18,7 @@ AR-приложение для создания фотографий с перс
 
 ## Технологии
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Frontend**: HTML5, CSS3, JavaScript
 - **AR Framework**: A-Frame, MindAR (локальные версии)
 - **3D Models**: GLB/GLTF формат
 
@@ -53,7 +53,7 @@ soyuzmultpult/
 ## Установка и запуск
 
 ### Требования
-- Node.js 14+ (для локальной разработки)
+- Node.js (для локальной разработки)
 - Современный браузер с поддержкой WebGL
 - Камера устройства
 
@@ -68,9 +68,12 @@ soyuzmultpult/
 
 ## Поддерживаемые браузеры
 
-- Chrome 80+ (Android/iOS)
-- Safari 13+ (iOS)
-- Firefox 75+ (Android/iOS)
+- Chrome (Android/iOS)
+- Safari (iOS)
+- Firefox (Android/iOS)
+- Opera (Android/iOS)
+- Яндекс Браузер (Android/iOS)
+
 
 ### Включенные библиотеки
 
